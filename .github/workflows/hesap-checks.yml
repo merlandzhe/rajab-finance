@@ -45,3 +45,5 @@ jobs:
         run: npm run build
         env:
           NEXT_TELEMETRY_DISABLED: '1'
+      - name: Anonymous API protection smoke test
+        run: node scripts/smoke-auth.mjs
