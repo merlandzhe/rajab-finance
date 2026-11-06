@@ -1,0 +1,71 @@
+name: Import HESAP snapshot to staging
+
+on:
+  push:
+    branches: ["hesap/sync-miniapp-2026-11-06"]
+    paths: ["hesap-import.zip"]
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.event.head_commit.message != 'chore: import HESAP snapshot'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          ref: hesap/sync-miniapp-2026-11-06
+      - name: Verify archive and unpack without executing it
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,stat,tarfile
+          from pathlib import Path
+          from zipfile import ZipFile
+          src=Path('hesap-import.zip')
+          expected='465460aa9d345894f2b70ea4a514b3e6ffd4b38d959e6a42a8b8c702564c3360'
+          if not src.is_file() or hashlib.sha256(src.read_bytes()).hexdigest()!=expected:
+              raise SystemExit('Incorrect archive hash or missing archive')
+          with ZipFile(src) as z:
+              infos=z.infolist()
+              if len(infos)>250 or sum(i.file_size for i in infos)>5000000: raise SystemExit('Invalid archive size')
+              required={'package.json','package-lock.json','vercel.json','src/app/mini/page.tsx','src/app/mini/merchant/page.tsx','src/lib/auth.ts'}
+              if not required.issubset({i.filename for i in infos}): raise SystemExit('Required files missing')
+              for i in infos:
+                  p=Path(i.filename)
+                  if p.is_absolute() or '..' in p.parts or stat.S_ISLNK(i.external_attr>>16): raise SystemExit('Unsafe ZIP path')
+                  if i.filename.startswith('.env') and i.filename!='.env.example': raise SystemExit('Secrets may not be imported')
+                  if i.is_dir():continue
+                  p.parent.mkdir(parents=True,exist_ok=True)
+                  p.write_bytes(z.read(i))
+          if json.loads(Path('vercel.json').read_text()).get('env',{}).get('DEMO_DEPLOYMENT')=='true':
+              raise SystemExit('Old demo deployment config detected')
+          fonts={
+              'DejaVuSans.ttf':'3061cf7af25793a655a1ff5a509385f3620f3eb3',
+              'DejaVuSans-Bold.ttf':'0298a9683ea927e703857d9f0359763ba84db137',
+              'LICENSE-DejaVu.txt':'ced4273fc44f83c1820df98cd628781c50b45264',
+          }
+          old=Path('rajab-source.tar.gz')
+          if not old.is_file(): raise SystemExit('Old font source archive not found')
+          with tarfile.open(old,'r:gz') as archive:
+              members=archive.getmembers()
+              for name,digest in fonts.items():
+                  found=[m for m in members if m.isfile() and (m.name=='public/fonts/'+name or m.name.endswith('/public/fonts/'+name))]
+                  if not found: raise SystemExit('Missing font resource '+name)
+                  blob=archive.extractfile(found[0]).read()
+                  if hashlib.sha1(blob).hexdigest()!=digest: raise SystemExit('Font resource mismatch '+name)
+                  dest=Path('public/fonts')/name
+                  dest.parent.mkdir(parents=True,exist_ok=True)
+                  dest.write_bytes(blob)
+          PY
+      - name: Commit staging branch only
+        run: |
+          git rm -f --ignore-unmatch rajab-source.tar.gz
+          rm -f hesap-import.zip
+          git add -A
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'chore: import HESAP snapshot'
+          git push origin HEAD:hesap/sync-miniapp-2026-11-06
