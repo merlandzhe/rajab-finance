@@ -9,10 +9,8 @@ const origin = `http://127.0.0.1:${port}`;
 const env = {
   ...process.env,
   APP_ORIGIN: origin,
-  DEMO_MODE: "false",
-  DEMO_DEPLOYMENT: "false",
-  TELEGRAM_MINI_APP_ENABLED: "false",
-  ALLOW_REAL_INTAKE: "false",
+  TELEGRAM_MINI_APP_ENABLED: "true",
+  TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot",
   // Fail closed even if the runner happens to carry project credentials.
   NEXT_PUBLIC_SUPABASE_URL: "",
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
