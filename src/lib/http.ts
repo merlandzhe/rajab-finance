@@ -2,19 +2,7 @@ import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { createHash } from "node:crypto";
 import { rateLimit } from "./repository";
-export function assertOrigin(request: Request) {
-  const origin = request.headers.get("origin");
-  const expected = process.env.APP_ORIGIN ?? "http://localhost:3000";
-  const allowed = new Set([new URL(expected).origin]);
-  // Both verified domains resolve to this HESAP project during the bot migration.
-  // Never trust arbitrary Host or x-forwarded-host values from the request.
-  if (process.env.VERCEL) {
-    allowed.add("https://hesap-mini-app.vercel.app");
-    allowed.add("https://rajab-finance-mini.vercel.app");
-  }
-  if (!origin || !allowed.has(origin))
-    throw new Error("INVALID_ORIGIN");
-}
+export { assertOrigin } from "./origin-guard";
 export async function limitedJson(request: Request) {
   const reader = request.body?.getReader();
   if (!reader) throw new Error("EMPTY_BODY");
