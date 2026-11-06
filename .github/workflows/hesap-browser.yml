@@ -7,6 +7,7 @@ on:
   pull_request:
     branches:
       - main
+      - hesap/sync-miniapp-2026-11-06
   workflow_dispatch:
 
 permissions:
