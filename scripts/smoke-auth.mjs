@@ -10,7 +10,7 @@ const env = {
   ...process.env,
   APP_ORIGIN: origin,
   TELEGRAM_MINI_APP_ENABLED: "true",
-  TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot",
+  TELEGRAM_MINI_APP_BOT_USERNAME: "Hesap95bot",
   // Fail closed even if the runner happens to carry project credentials.
   NEXT_PUBLIC_SUPABASE_URL: "",
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "",
