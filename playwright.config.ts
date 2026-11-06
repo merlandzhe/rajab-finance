@@ -14,7 +14,7 @@ export default defineConfig({
     env: {
       APP_ORIGIN: "http://127.0.0.1:3000",
       TELEGRAM_MINI_APP_ENABLED: "true",
-      TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot",
+      TELEGRAM_MINI_APP_BOT_USERNAME: "Hesap95bot",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },
