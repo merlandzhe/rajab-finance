@@ -11,7 +11,7 @@
     "test:e2e": "playwright test",
     "check:db": "node --import tsx scripts/check-db.ts",
     "check:http": "node --import tsx scripts/http-check.ts",
-    "export:demo": "node --import tsx scripts/export-demo.ts"
+    "check:telegram-http": "node --import tsx scripts/telegram-http-check.ts"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +28,7 @@
     "decimal.js": "10.6.0",
     "jose": "6.2.12",
     "lucide-react": "1.56.0",
-    "next": "16.4.0",
+    "next": "16.4.3",
     "pdf-lib": "1.17.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
