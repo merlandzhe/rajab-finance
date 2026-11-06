@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { Brand } from "@/components/brand";
 import { LoginForm } from "@/components/login-form";
-import { isDemo } from "@/lib/demo-db";
 
 import {
   telegramBotUsername,
@@ -32,7 +31,7 @@ export default function Page() {
             Прозрачность в деталях.
           </span>
         </div>
-        <LoginForm demo={isDemo()} />
+        <LoginForm />
       </main>
       {telegramMiniAppEnabled() && telegramBotUsername() && (
         <p style={{ textAlign: "center", padding: "0 20px 30px" }}>
