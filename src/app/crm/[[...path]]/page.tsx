@@ -13,7 +13,7 @@ export default async function Page({
   params: Promise<{ path?: string[] }>;
 }) {
   const s = await session();
-  if (!s) redirect("/login");
+  if (!s) redirect("/mini");
   if (s.role === "client") redirect("/cabinet");
   if (!s.platform_admin) {
     const { data: access, error } = await (
