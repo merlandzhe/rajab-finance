@@ -92,6 +92,8 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
   expect(pdf.headers()["content-type"]).toContain("application/pdf");
   expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
   await page.goto("/crm/settings/markups");
+  // Pricing rules are tucked into an accordion in the current merchant UI.
+  await page.locator("details").filter({ hasText: "Условия рассрочки" }).locator("summary").click();
   await expect(
     page.getByRole("heading", { name: "Правило ценообразования" }),
   ).toBeVisible();
