@@ -64,9 +64,8 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
   expect(newApplicationPage?.status()).toBe(200);
   await expect(page).toHaveURL(/\/crm\/applications\/new$/);
   await expect(page.getByRole("heading", { name: "Новая заявка" })).toBeVisible();
-  await page
-    .getByLabel("Клиент", { exact: true })
-    .selectOption({ label: name });
+  await expect(page.getByRole("combobox", { name: "Клиент" })).toBeVisible();
+  await page.locator('select[name="customer_id"]').selectOption({ label: name });
   await page.getByLabel("Наименование товара").fill("Тестовый ноутбук E2E");
   await page.getByRole("button", { name: "Создать заявку" }).click();
   await expect(
