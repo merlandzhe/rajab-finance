@@ -1430,7 +1430,7 @@ function ApplicationForm({
         }}
       >
         <Field label="Клиент">
-          <select name="customer_id" required defaultValue="">
+          <select aria-label="Клиент" name="customer_id" required defaultValue="">
             <option value="" disabled>
               Выберите клиента
             </option>
