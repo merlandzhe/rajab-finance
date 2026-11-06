@@ -8,7 +8,7 @@ test("webhook setup verifies bot and preserves unrelated webhooks and pending up
   process.env.TELEGRAM_MINI_APP_BOT_TOKEN = "test-token";
   process.env.APP_ORIGIN = "https://rajab.example";
   process.env.TELEGRAM_WEBHOOK_SECRET = "x".repeat(40);
-  process.env.TELEGRAM_MINI_APP_BOT_USERNAME = "RajabFinance_bot";
+  process.env.TELEGRAM_MINI_APP_BOT_USERNAME = "Hesap95bot";
   let username = "wrong_bot", url = "", calls: string[] = [];
   let sentBody: Record<string, unknown> = {};
   globalThis.fetch = async (input, init) => {
@@ -23,7 +23,7 @@ test("webhook setup verifies bot and preserves unrelated webhooks and pending up
   try {
     await assert.rejects(configureTelegram(true), /TELEGRAM_NOT_CONFIGURED/);
     assert.deepEqual(calls,["getMe"]);
-    username = "RajabFinance_bot"; url="https://other.example/hook"; calls=[];
+    username = "Hesap95bot"; url="https://other.example/hook"; calls=[];
     await assert.rejects(configureTelegram(true), /TELEGRAM_WEBHOOK_CONFLICT/);
     assert.equal(calls.includes("setWebhook"),false);
     url=""; calls=[];
