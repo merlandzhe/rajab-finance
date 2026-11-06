@@ -3,14 +3,14 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID, createHash } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { TENANT, OTHER_TENANT, DEMO_USERS } from "../src/lib/demo-ids";
+import { shim, seed } from "./fixtures/seed";
+import { TENANT, OTHER_TENANT, TEST_USERS } from "./fixtures/ids";
 import { today } from "../src/lib/money";
 import { verifiedContact, validSecret } from "../src/lib/telegram-contact";
 import { telegramEmail } from "../src/lib/telegram-registration";
 let db: PGlite;
-const owner = DEMO_USERS.owner.id,
-  other = DEMO_USERS.other.id;
+const owner = TEST_USERS.owner.id,
+  other = TEST_USERS.other.id;
 const buyer = randomUUID(),
   second = randomUUID();
 let appId: string;
@@ -267,7 +267,7 @@ test("notification queue isolates recipients, leases and deduplicates reminders 
   );
   await db.query<any>(
     "insert into private.telegram_accounts(telegram_id,user_id) values($1,$2)",
-    [888002, DEMO_USERS.client.id],
+    [888002, TEST_USERS.client.id],
   );
   await service("select queue_buyer_reminders()");
   const count1 = (
@@ -527,7 +527,7 @@ test("new buyer full deal, three-day reminder, claims and confirmed repayment re
 });
 
 test("reminders cover day zero and overdue, exclude tomorrow and isolate seller recipients", async () => {
-  const s = await state(DEMO_USERS.client.id);
+  const s = await state(TEST_USERS.client.id);
   const c = s.contracts.find(
     (x: any) => x.status === "signed" || x.status === "transferred",
   );
@@ -552,7 +552,7 @@ test("reminders cover day zero and overdue, exclude tomorrow and isolate seller 
   assert.equal(rows.filter((r: any) => r.schedule_id === ids[2]).length, 0);
   assert.equal(rows.filter((r: any) => r.schedule_id === ids[3]).length, 1);
   assert.ok(
-    rows.every((r: any) => [owner, DEMO_USERS.client.id].includes(r.recipient)),
+    rows.every((r: any) => [owner, TEST_USERS.client.id].includes(r.recipient)),
   );
   assert.match(
     rows.find((r: any) => r.schedule_id === ids[1]).message,
