@@ -57,6 +57,9 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
   await page.getByLabel("Телефон", { exact: true }).fill("+7 000 000 99 01");
   await page.getByRole("button", { name: "Создать клиента" }).click();
   await expect(page.getByRole("heading", { name })).toBeVisible();
+  // Wait for client-side navigation after the async customer.create action
+  // before starting a full-page navigation to the next step.
+  await expect(page).toHaveURL(/\/crm\/customers\/[0-9a-f-]{36}$/);
   const newApplicationPage = await page.goto("/crm/applications/new");
   expect(newApplicationPage?.status()).toBe(200);
   await expect(page).toHaveURL(/\/crm\/applications\/new$/);
