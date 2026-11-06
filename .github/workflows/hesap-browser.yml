@@ -25,7 +25,7 @@ jobs:
     env:
       CI: "true"
       TELEGRAM_MINI_APP_ENABLED: "true"
-      TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot"
+      TELEGRAM_MINI_APP_BOT_USERNAME: "Hesap95bot"
       TELEGRAM_SELF_SIGNUP_ENABLED: "false"
       TELEGRAM_NOTIFICATIONS_ENABLED: "false"
       NEXT_TELEMETRY_DISABLED: "1"
