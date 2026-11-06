@@ -52,7 +52,7 @@ export function TelegramBridge() {
       app.setHeaderColor?.("#0d202e");
       app.setBackgroundColor?.("#0d202e");
       app.setBottomBarColor?.("#0d202e");
-      window.dispatchEvent(new Event("rajab-telegram-theme"));
+      window.dispatchEvent(new Event("hesap-telegram-theme"));
     };
     applyInsets();
     theme();
