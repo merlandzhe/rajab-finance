@@ -6,6 +6,7 @@ import { getState, command } from "@/lib/repository";
 import { assertOrigin, fail, throttle } from "@/lib/http";
 import { serviceClient } from "@/lib/supabase";
 import { validateUpload } from "@/lib/uploads";
+import { cleanupUnregisteredFile } from "@/lib/storage-cleanup";
 import sharp from "sharp";
 export const runtime = "nodejs";
 export async function POST(req: Request) {
@@ -72,25 +73,55 @@ export async function POST(req: Request) {
       .storage.from("deal-documents")
       .upload(storagePath, bytes, { contentType: mime, upsert: false });
     if (error) throw error;
-    const result = await command(
-      s,
-      kind === "product_photo" ? "portal.photo" : "document.register",
-      {
-        application_id: applicationId,
-        ...(kind === "product_photo"
-          ? { id: applicationId, expected_tenant: expectedTenant }
-          : {}),
-        kind,
-        name:
-          file.name.replace(/[^\p{L}\p{N} ._()-]/gu, "").slice(0, 170) ||
-          "Документ",
-        storage_path: storagePath,
-        mime_type: mime,
-        size_bytes: bytes.byteLength,
-        sha256: createHash("sha256").update(bytes).digest("hex"),
-      },
-      randomUUID(),
-    );
+
+    let result: unknown;
+    try {
+        result = await command(
+        s,
+        kind === "product_photo" ? "portal.photo" : "document.register",
+        {
+          application_id: applicationId,
+          ...(kind === "product_photo"
+            ? { id: applicationId, expected_tenant: expectedTenant }
+            : {}),
+          kind,
+          name:
+            file.name.replace(/[^\p{L}\p{N} ._()-]/gu, "").slice(0, 170) ||
+            "Документ",
+          storage_path: storagePath,
+          mime_type: mime,
+          size_bytes: bytes.byteLength,
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+        },
+        randomUUID(),
+      );
+    } catch (error) {
+      // The RPC may have committed before a network error. Verify metadata
+      // with the privileged client before attempting to delete an uploaded file.
+      const db = serviceClient();
+      const cleaned = await cleanupUnregisteredFile(
+        async () => {
+          const { data, error: queryError } = await db
+            .from("documents")
+            .select("id")
+            .eq("storage_path", storagePath)
+            .limit(1);
+          if (queryError) throw queryError;
+          return (data?.length ?? 0) > 0;
+        },
+        async () => {
+          const { error: removalError } = await db
+            .storage.from("deal-documents")
+            .remove([storagePath]);
+          if (removalError) throw removalError;
+        },
+      );
+      if (!cleaned) {
+        // No path or customer information is included in server logs.
+        console.warn("HESAP upload metadata failed; file cleanup not confirmed");
+      }
+      throw error;
+    }
     return NextResponse.json(result);
   } catch (e) {
     return fail(e);
