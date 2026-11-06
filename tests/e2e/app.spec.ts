@@ -57,7 +57,10 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
   await page.getByLabel("Телефон", { exact: true }).fill("+7 000 000 99 01");
   await page.getByRole("button", { name: "Создать клиента" }).click();
   await expect(page.getByRole("heading", { name })).toBeVisible();
-  await page.goto("/crm/applications/new");
+  const newApplicationPage = await page.goto("/crm/applications/new");
+  expect(newApplicationPage?.status()).toBe(200);
+  await expect(page).toHaveURL(/\/crm\/applications\/new$/);
+  await expect(page.getByRole("heading", { name: "Новая заявка" })).toBeVisible();
   await page
     .getByLabel("Клиент", { exact: true })
     .selectOption({ label: name });
