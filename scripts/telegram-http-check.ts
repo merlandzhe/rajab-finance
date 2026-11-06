@@ -5,8 +5,6 @@ import next from "next";
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 Object.assign(process.env, {
-  DEMO_MODE: "false",
-  DEMO_DEPLOYMENT: "false",
   TELEGRAM_MINI_APP_ENABLED: "true",
   TELEGRAM_MINI_APP_BOT_TOKEN: "123456789:synthetic-test-token",
   TELEGRAM_MINI_APP_BOT_USERNAME: "rajab_test_only_bot",
