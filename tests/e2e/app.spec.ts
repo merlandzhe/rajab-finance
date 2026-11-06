@@ -81,7 +81,7 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
   ).toBeDisabled();
   await page.goto("/crm/contracts");
   await page
-    .getByRole("link", { name: /^Договор RF-/ })
+    .getByRole("link", { name: /^RF-/ })
     .first()
     .click();
   const pdfUrl = await page
