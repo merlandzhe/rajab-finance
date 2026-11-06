@@ -218,7 +218,7 @@ export async function contractPdf(data: State, c: Contract) {
   pdf.setAuthor("HESAP");
   return pdf.save();
 }
-export async function demoReceipt(product: string, cost: string) {
+export async function testReceipt(product: string, cost: string) {
   const pdf = await PDFDocument.create();
   pdf.registerFontkit(fontkit);
   const f = await pdf.embedFont(await readFile("public/fonts/DejaVuSans.ttf"), {
