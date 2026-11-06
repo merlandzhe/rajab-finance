@@ -1,0 +1,43 @@
+name: HESAP checks
+
+on:
+  push:
+    branches:
+      - "hesap/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hesap-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    name: TypeScript and security-focused tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DEMO_MODE: "false"
+      DEMO_DEPLOYMENT: "false"
+      ALLOW_REAL_INTAKE: "false"
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Use Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install pinned dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Database authorization and contract tests (isolated PGlite)
+        run: npm test
