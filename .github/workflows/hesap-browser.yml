@@ -58,3 +58,13 @@ jobs:
 
       - name: Browser tests (desktop and iPhone-sized viewport)
         run: npm run test:e2e
+
+      - name: Upload test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: hesap-playwright-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 3
