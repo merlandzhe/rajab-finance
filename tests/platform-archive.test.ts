@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { DEMO_USERS, TENANT } from "../src/lib/demo-ids";
+import { shim, seed } from "./fixtures/seed";
+import { TEST_USERS, TENANT } from "./fixtures/ids";
 let db: PGlite;
 async function as(user: string | null, sql: string, args: unknown[] = []) {
   return db.transaction(async (tx) => {
@@ -31,20 +31,20 @@ after(async () => {
   await db?.close();
 });
 test("only platform owner can archive; active contracts and owner identities are protected", async () => {
-  for (const u of [null, DEMO_USERS.owner.id, DEMO_USERS.client.id])
+  for (const u of [null, TEST_USERS.owner.id, TEST_USERS.client.id])
     await assert.rejects(
       as(u, "select platform_archive($1,false,true)", ["company:" + TENANT]),
       /FORBIDDEN|permission denied/,
     );
   await assert.rejects(
-    as(DEMO_USERS.platform.id, "select platform_archive($1,false,true)", [
+    as(TEST_USERS.platform.id, "select platform_archive($1,false,true)", [
       "company:" + TENANT,
     ]),
     /действующие договоры/,
   );
   await assert.rejects(
-    as(DEMO_USERS.platform.id, "select platform_archive($1,false,true)", [
-      "user:" + DEMO_USERS.platform.id,
+    as(TEST_USERS.platform.id, "select platform_archive($1,false,true)", [
+      "user:" + TEST_USERS.platform.id,
     ]),
     /владельца/,
   );
@@ -55,7 +55,7 @@ test("company deletion is recoverable and cannot be re-enabled while archived", 
     "insert into organizations(id,name,slug) values($1,'Archive company',$2)",
     [id, id],
   );
-  await as(DEMO_USERS.platform.id, "select platform_archive($1,false,true)", [
+  await as(TEST_USERS.platform.id, "select platform_archive($1,false,true)", [
     "company:" + id,
   ]);
   assert.equal(
@@ -64,7 +64,7 @@ test("company deletion is recoverable and cannot be re-enabled while archived", 
     false,
   );
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'active',null)",
     [id],
   );
@@ -73,7 +73,7 @@ test("company deletion is recoverable and cannot be re-enabled while archived", 
       .ok,
     false,
   );
-  await as(DEMO_USERS.platform.id, "select platform_archive($1,true,true)", [
+  await as(TEST_USERS.platform.id, "select platform_archive($1,true,true)", [
     "company:" + id,
   ]);
   assert.equal(
@@ -94,7 +94,7 @@ test("buyer deletion hides directory entry, disables registration and restores a
     "insert into buyer_profiles(user_id,name,active) values($1,'Archive buyer',true)",
     [id],
   );
-  await as(DEMO_USERS.platform.id, "select platform_archive($1,false,true)", [
+  await as(TEST_USERS.platform.id, "select platform_archive($1,false,true)", [
     "user:" + id,
   ]);
   assert.equal(
@@ -109,7 +109,7 @@ test("buyer deletion hides directory entry, disables registration and restores a
   assert.deepEqual(
     (
       await as(
-        DEMO_USERS.platform.id,
+        TEST_USERS.platform.id,
         "select platform_customer_directory('Archive buyer',0,false) r",
       )
     ).rows[0].r,
@@ -118,16 +118,16 @@ test("buyer deletion hides directory entry, disables registration and restores a
   assert.equal(
     (
       await as(
-        DEMO_USERS.platform.id,
+        TEST_USERS.platform.id,
         "select platform_customer_directory('Archive buyer',0,true) r",
       )
     ).rows[0].r.length,
     1,
   );
-  await as(DEMO_USERS.platform.id, "select platform_archive($1,false,true)", [
+  await as(TEST_USERS.platform.id, "select platform_archive($1,false,true)", [
     "user:" + id,
   ]);
-  await as(DEMO_USERS.platform.id, "select platform_archive($1,true,true)", [
+  await as(TEST_USERS.platform.id, "select platform_archive($1,true,true)", [
     "user:" + id,
   ]);
   assert.equal(
