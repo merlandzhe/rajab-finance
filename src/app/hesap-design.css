@@ -792,3 +792,6 @@ body.hesap,
 
 /* Owner delivery status is not an unread inbox. */
 .hesap .owner-delivery-link::after { content: none; }
+
+/* The app has no persistent read/unread flags yet. Do not show a permanent 'new' dot on every bell. */
+.hesap .notification-dot:not(.has-unread)::after { display: none; }
