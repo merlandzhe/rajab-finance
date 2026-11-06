@@ -12,8 +12,9 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 120000,
     env: {
-      DEMO_MODE: "true",
       APP_ORIGIN: "http://127.0.0.1:3000",
+      TELEGRAM_MINI_APP_ENABLED: "true",
+      TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot",
       NEXT_TELEMETRY_DISABLED: "1",
     },
   },
