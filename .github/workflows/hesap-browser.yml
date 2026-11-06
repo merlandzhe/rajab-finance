@@ -24,10 +24,8 @@ jobs:
     timeout-minutes: 25
     env:
       CI: "true"
-      DEMO_MODE: "true"
-      DEMO_DEPLOYMENT: "false"
-      ALLOW_REAL_INTAKE: "false"
-      TELEGRAM_MINI_APP_ENABLED: "false"
+      TELEGRAM_MINI_APP_ENABLED: "true"
+      TELEGRAM_MINI_APP_BOT_USERNAME: "RajabFinance_bot"
       TELEGRAM_SELF_SIGNUP_ENABLED: "false"
       TELEGRAM_NOTIFICATIONS_ENABLED: "false"
       NEXT_TELEMETRY_DISABLED: "1"

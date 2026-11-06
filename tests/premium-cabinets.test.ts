@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID, createHash } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { DEMO_USERS, TENANT, OTHER_TENANT } from "../src/lib/demo-ids";
+import { shim, seed } from "./fixtures/seed";
+import { TEST_USERS, TENANT, OTHER_TENANT } from "./fixtures/ids";
 let db: PGlite;
 const hash = () => createHash("sha256").update(randomUUID()).digest("hex");
 async function as(user: string | null, sql: string, args: unknown[] = []) {
@@ -57,28 +57,28 @@ test("admin bootstrap requires allowlisted signed identity, matching link and si
 });
 test("payment details: owner writes, client reads own seller, other tenant cannot read", async () => {
   await as(
-    DEMO_USERS.owner.id,
+    TEST_USERS.owner.id,
     "select save_seller_payment_methods('+79990000000','Тестовый банк','Тестовый получатель',true,'По договорённости')",
   );
   assert.equal(
-    (await as(DEMO_USERS.client.id, "select * from seller_payment_methods"))
+    (await as(TEST_USERS.client.id, "select * from seller_payment_methods"))
       .rows[0].tenant_id,
     TENANT,
   );
   assert.equal(
-    (await as(DEMO_USERS.other.id, "select * from seller_payment_methods")).rows
+    (await as(TEST_USERS.other.id, "select * from seller_payment_methods")).rows
       .length,
     0,
   );
   await assert.rejects(
     as(
-      DEMO_USERS.client.id,
+      TEST_USERS.client.id,
       "select save_seller_payment_methods('+79990000000','Чужой банк','Чужой получатель',false,'')",
     ),
     /FORBIDDEN/,
   );
   await assert.rejects(
-    as(DEMO_USERS.owner.id, "update seller_payment_methods set tenant_id=$1", [
+    as(TEST_USERS.owner.id, "update seller_payment_methods set tenant_id=$1", [
       OTHER_TENANT,
     ]),
     /permission denied/,
@@ -91,14 +91,14 @@ test("payment details: owner writes, client reads own seller, other tenant canno
 test("invalid payment details cannot replace valid recipient", async () => {
   await assert.rejects(
     as(
-      DEMO_USERS.owner.id,
+      TEST_USERS.owner.id,
       "select save_seller_payment_methods('+123','Банк','Имя',true,'')",
     ),
   );
   assert.equal(
     (
       await as(
-        DEMO_USERS.owner.id,
+        TEST_USERS.owner.id,
         "select sbp_phone from seller_payment_methods",
       )
     ).rows[0].sbp_phone,
@@ -107,15 +107,15 @@ test("invalid payment details cannot replace valid recipient", async () => {
 });
 test("only platform administrator may issue a merchant activation code", async () => {
   await assert.rejects(
-    as(DEMO_USERS.owner.id, "select platform_owner_invite($1,$2)", [
-      DEMO_USERS.other.id,
+    as(TEST_USERS.owner.id, "select platform_owner_invite($1,$2)", [
+      TEST_USERS.other.id,
       hash(),
     ]),
     /FORBIDDEN/,
   );
   await assert.rejects(
     as(null, "select platform_owner_invite($1,$2)", [
-      DEMO_USERS.other.id,
+      TEST_USERS.other.id,
       hash(),
     ]),
     /permission denied/,
@@ -130,7 +130,7 @@ test("new merchant receives isolated empty cabinet and single-use code", async (
   );
   const r = (
     await as(
-      DEMO_USERS.platform.id,
+      TEST_USERS.platform.id,
       "select platform_create_merchant($1,'Магазин тест','Владелец тест',$2) as v",
       [user, code],
     )
@@ -146,7 +146,7 @@ test("new merchant receives isolated empty cabinet and single-use code", async (
   );
   await assert.rejects(
     as(
-      DEMO_USERS.owner.id,
+      TEST_USERS.owner.id,
       "select platform_create_merchant($1,'Другой','Имя',$2)",
       [user, hash()],
     ),
@@ -176,7 +176,7 @@ test("merchant provisioning rejects an unrelated auth user and rolls back all or
   ).rows[0].n;
   await assert.rejects(
     as(
-      DEMO_USERS.platform.id,
+      TEST_USERS.platform.id,
       "select platform_create_merchant($1,'Магазин','Владелец',$2)",
       [user, hash()],
     ),

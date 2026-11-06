@@ -737,16 +737,6 @@ tbody tr:hover {
 .login-form {
   padding: 42px;
 }
-.demo-roles {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 20px;
-}
-.demo-roles button {
-  text-align: left;
-  justify-content: flex-start;
-}
 .app-shell {
   display: flex;
   min-height: 100vh;
@@ -856,22 +846,6 @@ tbody tr:hover {
   max-width: 1510px;
   margin: auto;
   padding: 30px 36px 55px;
-}
-.demo-banner {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 10px;
-  letter-spacing: 0.025em;
-  color: #947438;
-  margin-bottom: 22px;
-}
-.demo-banner:before {
-  content: "";
-  height: 5px;
-  width: 5px;
-  border-radius: 50%;
-  background: var(--gold);
 }
 .page-heading {
   display: flex;
@@ -1591,12 +1565,7 @@ tbody tr:hover {
   .section-tabs {
     gap: 20px;
   }
-  .demo-banner {
-    font-size: 9px;
-    line-height: 1.7;
-    margin-bottom: 16px;
-  }
-  .table-wrap th,
+.table-wrap th,
   .table-wrap td {
     padding: 12px 14px;
   }
@@ -1664,7 +1633,7 @@ tbody tr:hover {
   align-items: flex-start;
 }
 
-/* Mini App identity is scoped: the separate demo keeps its original theme. */
+/* Mini App visual identity */
 .mini-app-theme {
   --green: #164d3c;
   --gold: #d7b875;

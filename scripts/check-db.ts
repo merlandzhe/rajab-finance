@@ -1,6 +1,6 @@
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
-import { seed, shim } from "../src/lib/seed";
+import { seed, shim } from "../tests/fixtures/seed";
 const db = new PGlite();
 await db.waitReady;
 await db.exec(shim);

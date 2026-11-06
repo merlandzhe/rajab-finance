@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { DEMO_USERS, TENANT, OTHER_TENANT } from "../src/lib/demo-ids";
+import { shim, seed } from "./fixtures/seed";
+import { TEST_USERS, TENANT, OTHER_TENANT } from "./fixtures/ids";
 let db: PGlite, contract: string, report: string;
 const subject = randomUUID();
 async function as(user: string | null, sql: string, args: unknown[] = []) {
@@ -48,7 +48,7 @@ after(async () => {
   await db?.close();
 });
 test("platform customer directory is private and includes buyers without a seller", async () => {
-  for (const u of [null, subject, DEMO_USERS.owner.id, DEMO_USERS.other.id])
+  for (const u of [null, subject, TEST_USERS.owner.id, TEST_USERS.other.id])
     await assert.rejects(
       as(u, "select platform_customers()"),
       /FORBIDDEN|permission denied/,
@@ -59,7 +59,7 @@ test("platform customer directory is private and includes buyers without a selle
   );
   const rows = (
     await as(
-      DEMO_USERS.platform.id,
+      TEST_USERS.platform.id,
       "select platform_customers('Directory Test Buyer',0) r",
     )
   ).rows[0].r;
@@ -69,7 +69,7 @@ test("platform customer directory is private and includes buyers without a selle
   assert.deepEqual(
     (
       await as(
-        DEMO_USERS.platform.id,
+        TEST_USERS.platform.id,
         "select platform_customers('Directory Test Buyer',50) r",
       )
     ).rows[0].r,
@@ -78,7 +78,7 @@ test("platform customer directory is private and includes buyers without a selle
   assert.deepEqual(
     (
       await as(
-        DEMO_USERS.platform.id,
+        TEST_USERS.platform.id,
         "select platform_customers('unknown-name-12345',0) r",
       )
     ).rows[0].r,
@@ -86,14 +86,14 @@ test("platform customer directory is private and includes buyers without a selle
   );
 });
 test("only the contract's owner can manually publish an actual overdue balance", async () => {
-  for (const u of [null, DEMO_USERS.other.id, DEMO_USERS.manager.id, subject])
+  for (const u of [null, TEST_USERS.other.id, TEST_USERS.manager.id, subject])
     await assert.rejects(
       as(u, "select overdue_registry_add($1,'consent ref',true)", [contract]),
       /FORBIDDEN|permission denied/,
     );
   await assert.rejects(
     as(
-      DEMO_USERS.owner.id,
+      TEST_USERS.owner.id,
       "select overdue_registry_add($1,'consent ref',false)",
       [contract],
     ),
@@ -104,7 +104,7 @@ test("only the contract's owner can manually publish an actual overdue balance",
   ).rows[0].id;
   await assert.rejects(
     as(
-      DEMO_USERS.owner.id,
+      TEST_USERS.owner.id,
       "select overdue_registry_add($1,'consent ref',true)",
       [current],
     ),
@@ -112,7 +112,7 @@ test("only the contract's owner can manually publish an actual overdue balance",
   );
   report = (
     await as(
-      DEMO_USERS.owner.id,
+      TEST_USERS.owner.id,
       "select overdue_registry_add($1,'consent ref',true) id",
       [contract],
     )
@@ -120,7 +120,7 @@ test("only the contract's owner can manually publish an actual overdue balance",
   assert.equal(
     (
       await as(
-        DEMO_USERS.owner.id,
+        TEST_USERS.owner.id,
         "select overdue_registry_add($1,'consent ref',true) id",
         [contract],
       )
@@ -148,17 +148,17 @@ test("cross-company search is exact, limited, redacted and cannot mutate other r
     /FORBIDDEN/,
   );
   await assert.rejects(
-    as(DEMO_USERS.other.id, "select overdue_registry_state('999')"),
+    as(TEST_USERS.other.id, "select overdue_registry_state('999')"),
     /полный номер/,
   );
   assert.deepEqual(
-    (await as(DEMO_USERS.other.id, "select overdue_registry_state() r")).rows[0]
+    (await as(TEST_USERS.other.id, "select overdue_registry_state() r")).rows[0]
       .r,
     [],
   );
   const r = (
     await as(
-      DEMO_USERS.other.id,
+      TEST_USERS.other.id,
       "select overdue_registry_state('89991234567') r",
     )
   ).rows[0].r[0];
@@ -170,14 +170,14 @@ test("cross-company search is exact, limited, redacted and cannot mutate other r
   assert.equal(r.contract_id, undefined);
   await assert.rejects(
     as(
-      DEMO_USERS.other.id,
+      TEST_USERS.other.id,
       "select overdue_registry_change($1,'withdraw','false report')",
       [report],
     ),
     /FORBIDDEN/,
   );
   await assert.rejects(
-    as(DEMO_USERS.other.id, "select * from private.overdue_reports"),
+    as(TEST_USERS.other.id, "select * from private.overdue_reports"),
     /permission denied/,
   );
   await db.query(
@@ -185,7 +185,7 @@ test("cross-company search is exact, limited, redacted and cannot mutate other r
     [OTHER_TENANT],
   );
   await assert.rejects(
-    as(DEMO_USERS.other.id, "select overdue_registry_state('89991234567')"),
+    as(TEST_USERS.other.id, "select overdue_registry_state('89991234567')"),
     /FORBIDDEN/,
   );
   await db.query(
@@ -196,7 +196,7 @@ test("cross-company search is exact, limited, redacted and cannot mutate other r
 test("only the subject can dispute and the flag is visible to searchers", async () => {
   await assert.rejects(
     as(
-      DEMO_USERS.client.id,
+      TEST_USERS.client.id,
       "select overdue_registry_change($1,'dispute','not my debt')",
       [report],
     ),
@@ -209,7 +209,7 @@ test("only the subject can dispute and the flag is visible to searchers", async 
   );
   const r = (
     await as(
-      DEMO_USERS.other.id,
+      TEST_USERS.other.id,
       "select overdue_registry_state('89991234567') r",
     )
   ).rows[0].r[0];
@@ -230,7 +230,7 @@ test("confirmed payment updates reported arrears without exposing later installm
     )
   ).rows[0].id;
   await as(
-    DEMO_USERS.owner.id,
+    TEST_USERS.owner.id,
     "select app_command('payment.record',$1::jsonb,$2::uuid)",
     [
       JSON.stringify({
@@ -244,7 +244,7 @@ test("confirmed payment updates reported arrears without exposing later installm
   );
   const r = (
     await as(
-      DEMO_USERS.other.id,
+      TEST_USERS.other.id,
       "select overdue_registry_state('89991234567') r",
     )
   ).rows[0].r[0];
@@ -254,21 +254,21 @@ test("confirmed payment updates reported arrears without exposing later installm
 });
 test("withdrawal removes public search result, preserves audit and private history", async () => {
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select overdue_registry_change($1,'withdraw','Reviewed and withdrawn')",
     [report],
   );
   assert.deepEqual(
     (
       await as(
-        DEMO_USERS.other.id,
+        TEST_USERS.other.id,
         "select overdue_registry_state('89991234567') r",
       )
     ).rows[0].r,
     [],
   );
   assert.equal(
-    (await as(DEMO_USERS.owner.id, "select overdue_registry_state() r")).rows[0]
+    (await as(TEST_USERS.owner.id, "select overdue_registry_state() r")).rows[0]
       .r[0].status,
     "withdrawn",
   );

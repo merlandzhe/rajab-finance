@@ -1,138 +1,40 @@
 import { test, expect } from "@playwright/test";
-import { randomUUID } from "node:crypto";
 const origin = "http://127.0.0.1:3000";
-test("landing calculator and mobile overflow", async ({ page }) => {
+test("root goes directly to HESAP Mini App, not legacy marketing site", async ({ page }) => {
   await page.goto("/");
-  await expect(
-    page.getByRole("heading", { name: /Важные покупки/ }),
-  ).toBeVisible();
-  await page.getByLabel("Стоимость товара, ₽").fill("100000");
-  await page.getByLabel("Первоначальный взнос, ₽").fill("20000");
-  await page.getByRole("button", { name: "3 мес." }).click();
-  await page
-    .getByRole("button", { name: "Посмотреть график платежей" })
-    .click();
-  await expect(
-    page.getByRole("heading", { name: "График платежей" }),
-  ).toBeVisible();
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth + 1,
-    ),
-  ).toBe(true);
+  await expect(page).toHaveURL(/\/mini$/);
+  await expect(page.getByRole("heading", { name: "Рассрочка под контролем" })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Я покупатель/ })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Я предприниматель/ })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Важные покупки/ })).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
 });
-test("unauthenticated admin and API are protected", async ({
-  page,
-  request,
-}) => {
+test("merchant access starts with real onboarding, not demo roles", async ({ page }) => {
+  await page.goto("/mini/merchant");
+  await expect(page.getByRole("heading", { name: "HESAP для бизнеса" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Получить доступ" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "У меня есть код" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Написать владельцу HESAP" })).toHaveAttribute("href", "https://t.me/merlandzhe");
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+});
+test("anonymous customer, owner and payment data are protected", async ({ page, request }) => {
   await page.goto("/crm");
-  await expect(page).toHaveURL(/login/);
+  await expect(page).toHaveURL(/\/mini$/);
   expect((await request.get("/api/state")).status()).toBe(401);
-  expect(
-    (
-      await request.post("/api/command", {
-        data: {},
-        headers: { Origin: origin },
-      })
-    ).status(),
-  ).toBe(401);
-  expect(
-    (
-      await request.post("/api/auth", {
-        data: { action: "demo", role: "owner" },
-        headers: { Origin: "https://attacker.invalid" },
-      })
-    ).status(),
-  ).toBe(403);
+  expect((await request.get("/api/platform/access")).status()).toBe(401);
+  expect((await request.post("/api/command", { headers: { Origin: origin }, data: {} })).status()).toBe(401);
 });
-test("owner creates customer and request; unsigned purchase gate; PDF; tariff history", async ({
-  page,
-}) => {
+test("legacy demo sign-in and public intake are gone", async ({ page, request }) => {
   await page.goto("/login");
-  await page.getByRole("button", { name: "Войти как Раджап · демо" }).click();
-  await expect(page.locator(".merchant-overview")).toBeVisible();
-  await page.goto("/crm/customers/new");
-  const name = "Тест E2E " + randomUUID().slice(0, 8);
-  await page.getByLabel("ФИО / имя клиента").fill(name);
-  await page.getByLabel("Телефон", { exact: true }).fill("+7 000 000 99 01");
-  await page.getByRole("button", { name: "Создать клиента" }).click();
-  await expect(page.getByRole("heading", { name })).toBeVisible();
-  // Wait for client-side navigation after the async customer.create action
-  // before starting a full-page navigation to the next step.
-  await expect(page).toHaveURL(/\/crm\/customers\/[0-9a-f-]{36}$/);
-  const newApplicationPage = await page.goto("/crm/applications/new");
-  expect(newApplicationPage?.status()).toBe(200);
-  await expect(page).toHaveURL(/\/crm\/applications\/new$/);
-  await expect(page.getByRole("heading", { name: "Новая заявка" })).toBeVisible();
-  await expect(page.getByRole("combobox", { name: "Клиент" })).toBeVisible();
-  await page.locator('select[name="customer_id"]').selectOption({ label: name });
-  await page.getByLabel("Наименование товара").fill("Тестовый ноутбук E2E");
-  await page.getByRole("button", { name: "Создать заявку" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Тестовый ноутбук E2E" }),
-  ).toBeVisible();
-  await expect(
-    page.getByRole("button", { name: "Заключить демо-договор" }),
-  ).toHaveCount(0);
-  await page.getByRole("button", { name: "Одобрить заявку" }).click();
-  await page.getByRole("button", { name: "Перейти к закупке" }).click();
-  await expect(
-    page.getByRole("button", { name: "Зафиксировать закупку" }),
-  ).toBeDisabled();
-  await page.goto("/crm/contracts");
-  await page
-    .getByRole("link", { name: /^Договор RF-/ })
-    .first()
-    .click();
-  const pdfUrl = await page
-    .getByRole("link", { name: "Скачать PDF" })
-    .getAttribute("href");
-  const pdf = await page.request.get(pdfUrl!);
-  expect(pdf.status()).toBe(200);
-  expect(pdf.headers()["content-type"]).toContain("application/pdf");
-  expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
-  await page.goto("/crm/settings/markups");
-  // Pricing rules are tucked into an accordion in the current merchant UI.
-  await page.locator("details").filter({ hasText: "Условия рассрочки" }).locator("summary").click();
-  await expect(
-    page.getByRole("heading", { name: "Правило ценообразования" }),
-  ).toBeVisible();
-  expect(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth <= innerWidth + 1,
-    ),
-  ).toBe(true);
-});
-test("client sees only own contracts and cannot mutate or access another PDF", async ({
-  page,
-}) => {
-  await page.goto("/login");
-  await page.getByRole("button", { name: "Клиент", exact: true }).click();
-  await expect(page).toHaveURL(/cabinet/);
-  const state = await (await page.request.get("/api/state")).json();
-  expect(state.contracts).toHaveLength(1);
-  expect(state.applications.length).toBeGreaterThan(0);
-  expect(
-    state.applications.every((a: { customer_id: string; tenant_id: string }) =>
-      state.customers.some((c: { id: string; tenant_id: string }) =>
-        c.id === a.customer_id && c.tenant_id === a.tenant_id,
-      ),
-    ),
-  ).toBe(true);
-  const denied = await page.request.post("/api/command", {
+  await expect(page).toHaveURL(/\/mini$/);
+  const login = await request.post("/api/auth", {
     headers: { Origin: origin },
-    data: {
-      action: "customer.create",
-      payload: { name: "Попытка", phone: "+7 000 000 00 00" },
-      key: randomUUID(),
-    },
+    data: { action: "demo", role: "owner" },
   });
-  expect(denied.status()).toBe(403);
-  expect(
-    (
-      await page.request.get("/api/contracts/" + randomUUID() + "/pdf")
-    ).status(),
-  ).toBe(404);
-  await page.goto("/crm/settings");
-  await expect(page).toHaveURL(/cabinet/);
+  expect(login.ok()).toBe(false);
+  const intake = await request.post("/api/intake", {
+    headers: { Origin: origin },
+    data: {},
+  });
+  expect(intake.status()).toBe(404);
 });

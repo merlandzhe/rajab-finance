@@ -3,16 +3,17 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { DEMO_USERS, TENANT, OTHER_TENANT } from "../src/lib/demo-ids";
-import { today, addMonths, calculate, DEMO_PRICING } from "../src/lib/money";
+import { shim, seed } from "./fixtures/seed";
+import { TEST_USERS, TENANT, OTHER_TENANT } from "./fixtures/ids";
+import { today, addMonths, calculate } from "../src/lib/money";
+import { TEST_PRICING } from "./fixtures/pricing";
 import type { State } from "../src/lib/types";
 let db: PGlite;
-const owner = DEMO_USERS.owner.id,
-  other = DEMO_USERS.other.id,
-  manager = DEMO_USERS.manager.id,
-  cashier = DEMO_USERS.cashier.id,
-  client = DEMO_USERS.client.id;
+const owner = TEST_USERS.owner.id,
+  other = TEST_USERS.other.id,
+  manager = TEST_USERS.manager.id,
+  cashier = TEST_USERS.cashier.id,
+  client = TEST_USERS.client.id;
 async function as<T>(user: string | null, sql: string, args: unknown[] = []) {
   return db.transaction(async (tx) => {
     await tx.exec("set local role " + (user ? "authenticated" : "anon"));
@@ -250,7 +251,7 @@ test("client can read only own contract, schedules, payments and snapshot", asyn
   );
 });
 test("platform admin sees metadata, no confidential tenant rows", async () => {
-  const s = await state(DEMO_USERS.platform.id);
+  const s = await state(TEST_USERS.platform.id);
   assert.equal(s.organizations.length, 2);
   for (const key of [
     "customers",
@@ -499,7 +500,7 @@ test("SQL and Decimal calculations match for all pricing modes", async () => {
         6,
         mode,
         1250,
-        JSON.stringify(DEMO_PRICING.term_rates),
+        JSON.stringify(TEST_PRICING.term_rates),
         kind,
         value,
       ],
@@ -509,7 +510,7 @@ test("SQL and Decimal calculations match for all pricing modes", async () => {
       down: "123",
       months: 6,
       firstDate: "2027-01-31",
-      pricing: { ...DEMO_PRICING, mode, fixed_bps: 1250 },
+      pricing: { ...TEST_PRICING, mode, fixed_bps: 1250 },
       customKind: kind ?? undefined,
       customValue: value ?? undefined,
     });

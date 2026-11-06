@@ -2,9 +2,9 @@ import type { PGlite } from "@electric-sql/pglite";
 import { randomUUID, createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { demoReceipt } from "./pdf";
-import { DEMO_USERS, TENANT, OTHER_TENANT } from "./demo-ids";
-import { addMonths, today } from "./money";
+import { testReceipt } from "../../src/lib/pdf";
+import { TEST_USERS, TENANT, OTHER_TENANT } from "./ids";
+import { addMonths, today } from "../../src/lib/money";
 export const shim = `
 create role anon nologin;
 create role authenticated nologin;
@@ -22,7 +22,7 @@ grant usage on schema storage to authenticated,service_role;
 grant select on storage.objects to authenticated;
 `;
 export async function seed(db: PGlite) {
-  for (const [key, u] of Object.entries(DEMO_USERS)) {
+  for (const [key, u] of Object.entries(TEST_USERS)) {
     await db.query("insert into auth.users(id) values($1)", [u.id]);
     await db.query(
       "insert into profiles(id,display_name,platform_admin) values($1,$2,$3)",
@@ -30,7 +30,7 @@ export async function seed(db: PGlite) {
     );
   }
   for (const [id, name, slug] of [
-    [TENANT, "RAJAB FINANCE", "rajab"],
+    [TENANT, "HESAP", "rajab"],
     [OTHER_TENANT, "Тестовая организация Б", "other"],
   ]) {
     await db.query("insert into organizations(id,name,slug) values($1,$2,$3)", [
@@ -43,18 +43,18 @@ export async function seed(db: PGlite) {
       [id],
     );
     await db.query(
-      "insert into document_templates(tenant_id,version,name) values($1,1,'Демонстрационный договор v1')",
+      "insert into document_templates(tenant_id,version,name) values($1,1,'Тестовый договор v1')",
       [id],
     );
   }
-  for (const [key, u] of Object.entries(DEMO_USERS))
+  for (const [key, u] of Object.entries(TEST_USERS))
     if (key !== "platform" && key !== "buyer")
       await db.query(
         "insert into organization_members(tenant_id,user_id,role) values($1,$2,$3)",
         [key === "other" ? OTHER_TENANT : TENANT, u.id, u.role],
       );
-  await seedBuyerDemo(db);
-  const owner = DEMO_USERS.owner.id;
+  await seedBuyerFixture(db);
+  const owner = TEST_USERS.owner.id;
   const customers: string[] = [];
   for (let i = 0; i < 6; i++) {
     const id = randomUUID();
@@ -64,8 +64,8 @@ export async function seed(db: PGlite) {
       [
         id,
         TENANT,
-        i === 0 ? DEMO_USERS.client.id : null,
-        `Демо Клиент ${String(i + 1).padStart(2, "0")}`,
+        i === 0 ? TEST_USERS.client.id : null,
+        `Тестовый клиент ${String(i + 1).padStart(2, "0")}`,
         `+7 000 000 00 0${i + 1}`,
         `client${i + 1}@example.invalid`,
         "Вымышленная карточка для проверки CRM",
@@ -111,7 +111,7 @@ export async function seed(db: PGlite) {
       "insert into applications(id,tenant_id,customer_id,product_name,supplier,estimated_cost,down_payment,months,status,created_by) values($1,$2,$3,$4,'Демо поставщик',$5,$6,6,'contracted',$7)",
       [a, TENANT, customers[i], goods[i], cost, down, owner],
     );
-    const receipt = await demoReceipt(goods[i], String(cost));
+    const receipt = await testReceipt(goods[i], String(cost));
     const filePath = path.join(".demo/files", TENANT, a, d + ".pdf");
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, receipt);
@@ -160,8 +160,8 @@ export async function seed(db: PGlite) {
         c,
         JSON.stringify({
           product_name: goods[i],
-          customer_name: `Демо Клиент ${String(i + 1).padStart(2, "0")}`,
-          seller_name: "RAJAB FINANCE",
+          customer_name: `Тестовый клиент ${String(i + 1).padStart(2, "0")}`,
+          seller_name: "HESAP",
           cost: String(cost),
           profit: String(profit),
           sale_price: String(price),
@@ -219,9 +219,9 @@ export async function seed(db: PGlite) {
     );
 }
 
-// Local-only fixture. Hosted registration never calls seed()/seedBuyerDemo().
-export async function seedBuyerDemo(db: PGlite) {
-  const u = DEMO_USERS.buyer;
+// Local-only fixture. Hosted registration never calls seed()/seedBuyerFixture().
+export async function seedBuyerFixture(db: PGlite) {
+  const u = TEST_USERS.buyer;
   await db.query(
     "insert into auth.users(id) values($1) on conflict do nothing",
     [u.id],

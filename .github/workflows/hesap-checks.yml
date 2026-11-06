@@ -23,9 +23,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      DEMO_MODE: "false"
-      DEMO_DEPLOYMENT: "false"
-      ALLOW_REAL_INTAKE: "false"
     steps:
       - name: Checkout source
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2

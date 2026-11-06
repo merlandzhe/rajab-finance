@@ -177,14 +177,12 @@ export function CRM({
   initial,
   session: s,
   path,
-  demo,
   telegram = false,
   initialAccess,
 }: {
   initial: State;
   session: Session;
   path: string[];
-  demo: boolean;
   telegram?: boolean;
   initialAccess?: AccessState;
 }) {
@@ -388,7 +386,7 @@ export function CRM({
                 : (data.organizations[0]?.name ?? "Организация")}
             </strong>
             <span>
-              {demo ? "Демонстрационное пространство" : "Рабочее пространство"}
+              Рабочее пространство
             </span>
           </div>
         </div>
@@ -514,12 +512,6 @@ export function CRM({
           </div>
         </header>
         <div className="app-body">
-          {demo && (
-            <div className="demo-banner">
-              ДЕМО-РЕЖИМ · Все клиенты и операции вымышлены · Реальные платежи
-              не подключены
-            </div>
-          )}
           {error && (
             <div className="error inline-error" role="alert">
               {error}
@@ -651,9 +643,7 @@ export function CRM({
                 sub="Сообщения о заявках и платежах"
               />
               <div className="hint mb">
-                {demo
-                  ? "В деморежиме сообщения не отправляются. Очередь показывает события, которые получит администратор."
-                  : "Сообщения приходят в Telegram. Для их получения запустите бота HESAP."}
+                Сообщения приходят в Telegram. Для их получения запустите бота HESAP.
               </div>
               <div className="card">
                 {data.notifications.map((n) => (
@@ -1159,7 +1149,7 @@ function CustomerForm({
         <Field label="ФИО / имя клиента">
           <input
             name="name"
-            placeholder="Демо Клиент 07"
+            placeholder="ФИО клиента"
             required
             minLength={2}
             maxLength={120}

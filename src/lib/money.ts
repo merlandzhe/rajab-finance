@@ -5,12 +5,6 @@ export type Pricing = {
   term_rates: Record<string, number>;
   version: number;
 };
-export const DEMO_PRICING: Pricing = {
-  mode: "term",
-  fixed_bps: 1800,
-  term_rates: { "3": 600, "6": 1200, "9": 1800, "12": 2400 },
-  version: 1,
-};
 export function cents(value: string): string {
   if (!/^\d{1,10}([.,]\d{1,2})?$/.test(value))
     throw new Error("Введите сумму с точностью до копейки");

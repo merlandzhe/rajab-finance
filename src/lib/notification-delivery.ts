@@ -1,14 +1,9 @@
 import "server-only";
 import { serviceClient } from "./supabase";
-import { isDemo } from "./demo-db";
 import { sendTelegram, TelegramDeliveryError } from "./telegram";
 
 export async function deliverNotifications(reminders = false) {
-  if (
-    isDemo() ||
-    process.env.DEMO_DEPLOYMENT === "true" ||
-    process.env.TELEGRAM_NOTIFICATIONS_ENABLED !== "true"
-  )
+  if (process.env.TELEGRAM_NOTIFICATIONS_ENABLED !== "true")
     return { sent: 0, failed: 0, disabled: true };
   const token = process.env.TELEGRAM_MINI_APP_BOT_TOKEN;
   if (!token) throw new Error("Telegram not configured");

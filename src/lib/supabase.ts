@@ -8,7 +8,7 @@ export async function supabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key)
-    throw new Error("Настройте Supabase или включите локальный деморежим");
+    throw new Error("Сервис временно недоступен: Supabase не настроен");
   return createServerClient(url, key, {
     cookies: {
       getAll() {

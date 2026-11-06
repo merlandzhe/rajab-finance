@@ -1,7 +1,7 @@
 {
-  "name": "rajab-finance",
+  "name": "hesap-mini-app",
   "version": "0.1.0",
-  "description": "RAJAB FINANCE: tenant-isolated murabaha CRM with exact financial ledger",
+  "description": "HESAP Telegram Mini App for installment management",
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
@@ -10,7 +10,6 @@
     "test": "node --import tsx --test tests/*.test.ts",
     "test:e2e": "playwright test",
     "check:db": "node --import tsx scripts/check-db.ts",
-    "check:http": "node --import tsx scripts/http-check.ts",
     "check:telegram-http": "node --import tsx scripts/telegram-http-check.ts"
   },
   "keywords": [],

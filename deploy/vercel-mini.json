@@ -1,6 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "nextjs",
-  "public": false,
-  "crons": [{ "path": "/api/telegram", "schedule": "0 6 * * *" }]
-}

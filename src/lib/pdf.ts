@@ -218,7 +218,7 @@ export async function contractPdf(data: State, c: Contract) {
   pdf.setAuthor("HESAP");
   return pdf.save();
 }
-export async function demoReceipt(product: string, cost: string) {
+export async function testReceipt(product: string, cost: string) {
   const pdf = await PDFDocument.create();
   pdf.registerFontkit(fontkit);
   const f = await pdf.embedFont(await readFile("public/fonts/DejaVuSans.ttf"), {
@@ -226,10 +226,10 @@ export async function demoReceipt(product: string, cost: string) {
   });
   const p = pdf.addPage([595, 420]);
   for (const [i, t] of [
-    "ДЕМОНСТРАЦИОННЫЙ ДОКУМЕНТ ЗАКУПКИ",
+    "ТЕСТОВЫЙ ДОКУМЕНТ ЗАКУПКИ",
     product,
     "Стоимость: " + money(cost),
-    "Вымышленный поставщик. Только для тестирования.",
+    "Тестовый поставщик. Только для тестирования.",
     "Не является кассовым чеком или подтверждением реальной покупки.",
   ].entries())
     p.drawText(t, {

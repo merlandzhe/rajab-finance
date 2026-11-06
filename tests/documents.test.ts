@@ -2,10 +2,10 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { PDFDocument } from "pdf-lib";
 import { validateUpload } from "../src/lib/uploads";
-import { demoReceipt } from "../src/lib/pdf";
+import { testReceipt } from "../src/lib/pdf";
 import { sendTelegram } from "../src/lib/telegram";
 test("PDF upload parsed; HTML/SVG and oversized files rejected", async () => {
-  const bytes = await demoReceipt("Тестовый товар", "100000");
+  const bytes = await testReceipt("Тестовый товар", "100000");
   assert.equal((await validateUpload(bytes)).mime, "application/pdf");
   assert.equal((await PDFDocument.load(bytes)).getPageCount(), 1);
   await assert.rejects(
