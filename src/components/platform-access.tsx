@@ -545,6 +545,18 @@ export function PlatformAccess({
             {data.delivery.waiting_connection ? "Ждут подключения Telegram: " + data.delivery.waiting_connection + ". Получателю нужно открыть бота и привязать свой кабинет." : "Здесь показано состояние отправки сообщений, а не личные непрочитанные уведомления."}
           </p>
           <button
+            type="button"
+            className="btn btn-outline"
+            disabled={busy}
+            onClick={() => {
+              setError("");
+              void load().catch((e) => setError(e.message));
+            }}
+          >
+            <RefreshCw size={16} aria-hidden="true" />
+            Обновить состояние
+          </button>
+          <button
             className="btn btn-outline"
             disabled={busy || !data.delivery.failed}
             onClick={() => void act({ action: "retry" })}
