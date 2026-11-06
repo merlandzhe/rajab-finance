@@ -1,25 +1,29 @@
 # HESAP — Telegram Mini App
 
-Production project: `rajab-finance-mini` on Vercel. Source-control repository: `merlandzhe/rajab-finance`.
+HESAP — система товарной рассрочки для покупателей, предпринимателей и владельца платформы.
+Покупатели подают заявки через Telegram, предприниматели ведут CRM, договоры и графики платежей.
 
-This snapshot comes from the user-provided `Hes .zip` (approximately 30 October 2026). Most files have matching SHA-1 digests with the currently deployed version, but the following files need a merge from the newer production deployment before promoting to `main`:
+## Приложение
+- Telegram Mini App: `/mini` (корневой адрес `/` перенаправляет на него).
+- Кабинет покупателя: `/cabinet`.
+- CRM предпринимателя и кабинет владельца: `/crm`.
+- Подключение предпринимателя: `/mini/merchant`.
+- Техническая база: Next.js, Supabase, Vercel; имя Vercel-проекта `rajab-finance-mini` сохранено для совместимости.
 
-- `src/components/crm.tsx`
-- `src/components/buyer-cabinet.tsx`
-- `src/components/platform-access.tsx`
-- `src/app/crm/[[...path]]/page.tsx`
-- `src/app/hesap-design.css`
+Старый публичный сайт RAJAB FINANCE, форма приёма заявок и локальные демонстрационные кабинеты удалены.
+В рабочей сборке нет демо-авторизации, демо-базы и деморежима.
+Синтетические SQL-функции и тестовые данные находятся только в `tests/fixtures`,
+используются CI-тестами и не подключены к рабочим пользователям.
 
-The production `vercel.json` configuration has already been updated in this staging snapshot; do not reintroduce `DEMO_DEPLOYMENT=true`.
+## Проверки
+```bash
+npm ci
+npm run typecheck
+npm test
+npm run build
+npm run test:e2e
+```
 
-## Deploy procedure
+Проверять обновление на отдельной ветке, не заменяя Production до прохождения тестов и проверки реального Telegram-входа.
 
-1. Work in the `hesap/sync-miniapp-2026-11-06` branch only. The original October 14 repository snapshot is preserved under `archive/rajab-finance-2026-10-14`.
-2. Review and merge the five production UI files into this branch.
-3. Set Vercel environment variables in Vercel project settings only. **Never** commit secrets or actual customer data.
-4. Run `npm ci`, `npm run typecheck`, `npm test`, `npm run build` in a trusted environment with Node.js 24. Do not make preview work by enabling demo mode or bypassing authentication.
-5. Smoke-test the buyer, seller, and owner Telegram flows and ensure the storage/security model matches the current Supabase project before promoting a tested build.
-
-The old local PGlite demo test infrastructure is dormant in production (`DEMO_MODE=false`) and is not a second deployed website. Demo fixtures are kept only where needed for tests or compatibility; they can be removed after a complete safe refactor.
-
-This public repository is **not** a place for passports, receipts, customer data, database dumps, `.env.local`, service keys, Telegram tokens, or private contracts.
+**Никогда не коммитить:** ключи Supabase, Telegram-токены, паспорта, договоры клиентов, реальные фото и данные покупателей.
