@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { PGlite } from "@electric-sql/pglite";
 import { readFile, readdir } from "node:fs/promises";
 import { randomUUID, createHash } from "node:crypto";
-import { shim, seed } from "../src/lib/seed";
-import { DEMO_USERS, TENANT, OTHER_TENANT } from "../src/lib/demo-ids";
+import { shim, seed } from "./fixtures/seed";
+import { TEST_USERS, TENANT, OTHER_TENANT } from "./fixtures/ids";
 import { merchantRequestInput, whatsappUrl } from "../src/lib/merchant-input";
 let db: PGlite;
 const buyer = randomUUID(),
@@ -113,7 +113,7 @@ test("only platform admin issues codes; code is bound to applicant and new compa
     /FORBIDDEN/,
   );
   tenant = (
-    await as(DEMO_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
+    await as(TEST_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
       rid,
       code,
     ])
@@ -136,7 +136,7 @@ test("only platform admin issues codes; code is bound to applicant and new compa
 test("reissue revokes old code and expiry is enforced", async () => {
   const next = hash();
   const issued = (
-    await as(DEMO_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
+    await as(TEST_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
       rid,
       next,
     ])
@@ -155,12 +155,12 @@ test("reissue revokes old code and expiry is enforced", async () => {
   );
   code = hash();
   const revoked = (
-    await as(DEMO_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
+    await as(TEST_USERS.platform.id, "select platform_issue_code($1,$2,30) r", [
       rid,
       code,
     ])
   ).rows[0].r;
-  await as(DEMO_USERS.platform.id, "select platform_revoke_code($1)", [
+  await as(TEST_USERS.platform.id, "select platform_revoke_code($1)", [
     revoked.id,
   ]);
   await assert.rejects(
@@ -168,7 +168,7 @@ test("reissue revokes old code and expiry is enforced", async () => {
     /Код недействителен/,
   );
   code = hash();
-  await as(DEMO_USERS.platform.id, "select platform_issue_code($1,$2,30)", [
+  await as(TEST_USERS.platform.id, "select platform_issue_code($1,$2,30)", [
     rid,
     code,
   ]);
@@ -202,7 +202,7 @@ test("activation consumes code once and retains buyer profile", async () => {
 });
 test("blocking and expiry revoke existing staff reads and writes; buyer records remain", async () => {
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'blocked',null)",
     [tenant],
   );
@@ -240,7 +240,7 @@ test("blocking and expiry revoke existing staff reads and writes; buyer records 
     0,
   );
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'active',now()-interval '1 second')",
     [tenant],
   );
@@ -249,7 +249,7 @@ test("blocking and expiry revoke existing staff reads and writes; buyer records 
     false,
   );
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'active',now()+interval '30 days')",
     [tenant],
   );
@@ -263,19 +263,19 @@ test("blocking and expiry revoke existing staff reads and writes; buyer records 
     ]),
     /FORBIDDEN/,
   );
-  const before = (await as(DEMO_USERS.client.id, "select * from contracts"))
+  const before = (await as(TEST_USERS.client.id, "select * from contracts"))
     .rows.length;
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'blocked',null)",
     [TENANT],
   );
   assert.equal(
-    (await as(DEMO_USERS.client.id, "select * from contracts")).rows.length,
+    (await as(TEST_USERS.client.id, "select * from contracts")).rows.length,
     before,
   );
   await as(
-    DEMO_USERS.platform.id,
+    TEST_USERS.platform.id,
     "select platform_company_access($1,'active',null)",
     [TENANT],
   );
@@ -294,7 +294,7 @@ test("platform notices cannot be sent to ordinary recipients", async () => {
     (
       await db.query<any>(
         "select private.notification_recipient_allowed(null,$1) ok",
-        [DEMO_USERS.platform.id],
+        [TEST_USERS.platform.id],
       )
     ).rows[0].ok,
     true,
