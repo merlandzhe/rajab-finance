@@ -8,6 +8,7 @@ const port = 31079;
 const origin = `http://127.0.0.1:${port}`;
 const env = {
   ...process.env,
+  APP_ORIGIN: origin,
   DEMO_MODE: "false",
   DEMO_DEPLOYMENT: "false",
   TELEGRAM_MINI_APP_ENABLED: "false",
