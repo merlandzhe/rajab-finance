@@ -8,6 +8,7 @@ export function assertOrigin(request: Request) {
   if (process.env.VERCEL) {
     allowed.add("https://hesap-mini-app.vercel.app");
     allowed.add("https://rajab-finance-mini.vercel.app");
+    allowed.add("https://rajab-finance-mini-merlan.vercel.app");
   }
   if (!origin || !allowed.has(origin)) throw new Error("INVALID_ORIGIN");
 }
