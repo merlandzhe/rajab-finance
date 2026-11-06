@@ -71,7 +71,7 @@ export function TelegramBridge() {
     const app = window.Telegram?.WebApp;
     if (!app?.initData) return;
     const root =
-      ["/mini", "/cabinet", "/crm", "/crm/platform", "/login"].includes(path) &&
+      ["/mini", "/cabinet", "/crm", "/crm/platform"].includes(path) &&
       !(path === "/cabinet" && view && view !== "home");
     if (root) app.BackButton.hide();
     else app.BackButton.show();
