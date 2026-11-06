@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
     let result: unknown;
     try {
-        result = await command(
+      result = await command(
         s,
         kind === "product_photo" ? "portal.photo" : "document.register",
         {
@@ -94,8 +94,8 @@ export async function POST(req: Request) {
           sha256: createHash("sha256").update(bytes).digest("hex"),
         },
         randomUUID(),
-      );
-    } catch (error) {
+        );
+      } catch (error) {
       // The RPC may have committed before a network error. Verify metadata
       // with the privileged client before attempting to delete an uploaded file.
       const db = serviceClient();
