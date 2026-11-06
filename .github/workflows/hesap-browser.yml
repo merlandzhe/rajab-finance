@@ -1,0 +1,60 @@
+name: HESAP browser acceptance tests
+
+on:
+  push:
+    branches:
+      - "hesap/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hesap-browser-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browser:
+    name: Desktop and mobile UI (isolated demo data)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      CI: "true"
+      DEMO_MODE: "true"
+      DEMO_DEPLOYMENT: "false"
+      ALLOW_REAL_INTAKE: "false"
+      TELEGRAM_MINI_APP_ENABLED: "false"
+      TELEGRAM_SELF_SIGNUP_ENABLED: "false"
+      TELEGRAM_NOTIFICATIONS_ENABLED: "false"
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_SUPABASE_URL: ""
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ""
+      SUPABASE_SERVICE_ROLE_KEY: ""
+      TELEGRAM_MINI_APP_BOT_TOKEN: ""
+      TELEGRAM_BOT_TOKEN: ""
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Compile isolated test build
+        run: npm run build
+
+      - name: Browser tests (desktop and iPhone-sized viewport)
+        run: npm run test:e2e
