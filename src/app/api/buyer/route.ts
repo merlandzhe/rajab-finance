@@ -3,7 +3,6 @@ import { z } from "zod";
 import { requireSession } from "@/lib/auth";
 import { assertOrigin, fail, limitedJson, throttle } from "@/lib/http";
 import { supabase } from "@/lib/supabase";
-import { demoRpc, isDemo } from "@/lib/demo-db";
 const input = z.discriminatedUnion("action", [
   z.object({ action: z.literal("phone") }).strict(),
   z
@@ -17,11 +16,10 @@ const input = z.discriminatedUnion("action", [
   z.object({ action: z.literal("select"), tenant_id: z.uuid() }).strict(),
 ]);
 async function call(
-  user: string,
+  _user: string,
   name: string,
   args: Record<string, unknown> = {},
 ) {
-  if (isDemo()) return demoRpc(user, name, Object.values(args));
   const { data, error } = await (await supabase()).rpc(name, args);
   if (error) throw error;
   return data;
