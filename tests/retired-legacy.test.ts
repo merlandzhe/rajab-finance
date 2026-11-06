@@ -39,3 +39,15 @@ test("working HESAP code must never fall back to demo authentication or storage"
     assert.doesNotMatch(source, /(?:from|import\s*\()\s*["'][^"']*\/demo-db["']/, path);
   }
 });
+
+test("old login redirects never reappear inside HESAP screens", () => {
+  for (const path of sourceFiles(app)) {
+    if (path.endsWith(join("app", "login", "page.tsx"))) continue;
+    const source = readFileSync(path, "utf8");
+    assert.doesNotMatch(
+      source,
+      /(?:href=|redirect\(|router\.push\()\s*["']\/login["']/,
+      path,
+    );
+  }
+});
