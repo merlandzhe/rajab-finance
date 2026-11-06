@@ -53,9 +53,9 @@ const cases = [
   ["GET", "/api/state"],
   ["GET", "/api/platform/access"],
   ["GET", "/api/platform/customers"],
-  ["GET", "/api/platform/merchants"],
+  ["POST", "/api/platform/merchants"],
   ["GET", "/api/telegram/health"],
-  ["GET", "/api/telegram/dispatch"],
+  ["POST", "/api/telegram/dispatch"],
   ["POST", "/api/command"],
 ];
 try {
