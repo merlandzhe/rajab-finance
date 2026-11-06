@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { assertOrigin } from "../src/lib/http";
+import { assertOrigin } from "../src/lib/origin-guard";
 
 function postFrom(origin?: string) {
   return new Request("https://hesap-mini-app.vercel.app/api/auth/telegram", {
