@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { session } from "@/lib/auth";
 import { getState } from "@/lib/repository";
-import { isDemo } from "@/lib/demo-db";
 import type { State } from "@/lib/types";
 import type { AccessState } from "@/components/platform-access";
 import { CRM } from "@/components/crm";
@@ -16,7 +15,7 @@ export default async function Page({
   const s = await session();
   if (!s) redirect("/login");
   if (s.role === "client") redirect("/cabinet");
-  if (!isDemo() && !s.platform_admin) {
+  if (!s.platform_admin) {
     const { data: access, error } = await (
       await supabase()
     ).rpc("my_company_access");
@@ -72,7 +71,6 @@ export default async function Page({
   let initialAccess: AccessState | undefined;
   if (
     platformOnly &&
-    !isDemo() &&
     ["platform", "platform-requests", "platform-notifications"].includes(
       path[0],
     )
@@ -88,7 +86,6 @@ export default async function Page({
       initial={platformOnly ? emptyPlatformState : await getState(s)}
       session={s}
       path={path}
-      demo={isDemo()}
       telegram={telegramMiniAppEnabled()}
     />
   );
