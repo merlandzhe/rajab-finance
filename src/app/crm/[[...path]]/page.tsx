@@ -44,7 +44,7 @@ export default async function Page({
       );
   }
   const { path = [] } = await params;
-  if (!s.tenant_id && !s.platform_admin) redirect("/login");
+  if (!s.tenant_id && !s.platform_admin) redirect("/mini");
   if (
     s.platform_admin &&
     !s.tenant_id &&
