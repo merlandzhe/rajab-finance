@@ -16,6 +16,7 @@ test("Telegram registration accepts both verified HESAP domains on Vercel", () =
     process.env.APP_ORIGIN = "https://hesap-mini-app.vercel.app";
     assert.doesNotThrow(() => assertOrigin(postFrom("https://hesap-mini-app.vercel.app")));
     assert.doesNotThrow(() => assertOrigin(postFrom("https://rajab-finance-mini.vercel.app")));
+    assert.doesNotThrow(() => assertOrigin(postFrom("https://rajab-finance-mini-merlan.vercel.app")));
     for (const untrusted of [undefined, "null", "https://evil.vercel.app", "https://hesap-mini-app.vercel.app.evil.com", "http://hesap-mini-app.vercel.app"]) {
       assert.throws(() => assertOrigin(postFrom(untrusted)), /INVALID_ORIGIN/);
     }
