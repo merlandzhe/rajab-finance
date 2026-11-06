@@ -210,7 +210,7 @@ export function CRM({
   async function reload() {
     const r = await fetch("/api/state", { cache: "no-store" });
     if (r.status === 401) {
-      router.push("/login");
+      router.push("/mini");
       return;
     }
     if (!r.ok)
@@ -503,7 +503,7 @@ export function CRM({
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ action: "logout" }),
                 });
-                router.push("/login");
+                router.push("/mini");
                 router.refresh();
               }}
             >
