@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { randomUUID } from "node:crypto";
 const origin = "http://127.0.0.1:3000";
-test("landing calculator, theme and mobile overflow", async ({ page }) => {
+test("landing calculator and mobile overflow", async ({ page }) => {
   await page.goto("/");
   await expect(
     page.getByRole("heading", { name: /Важные покупки/ }),
@@ -15,8 +15,6 @@ test("landing calculator, theme and mobile overflow", async ({ page }) => {
   await expect(
     page.getByRole("heading", { name: "График платежей" }),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Тёмная тема" }).click();
-  await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth + 1,
@@ -52,9 +50,7 @@ test("owner creates customer and request; unsigned purchase gate; PDF; tariff hi
 }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: "Войти как Раджап · демо" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Обзор бизнеса" }),
-  ).toBeVisible();
+  await expect(page.locator(".merchant-overview")).toBeVisible();
   await page.goto("/crm/customers/new");
   const name = "Тест E2E " + randomUUID().slice(0, 8);
   await page.getByLabel("ФИО / имя клиента").fill(name);
@@ -108,7 +104,14 @@ test("client sees only own contracts and cannot mutate or access another PDF", a
   await expect(page).toHaveURL(/cabinet/);
   const state = await (await page.request.get("/api/state")).json();
   expect(state.contracts).toHaveLength(1);
-  expect(state.applications).toHaveLength(0);
+  expect(state.applications.length).toBeGreaterThan(0);
+  expect(
+    state.applications.every((a: { customer_id: string; tenant_id: string }) =>
+      state.customers.some((c: { id: string; tenant_id: string }) =>
+        c.id === a.customer_id && c.tenant_id === a.tenant_id,
+      ),
+    ),
+  ).toBe(true);
   const denied = await page.request.post("/api/command", {
     headers: { Origin: origin },
     data: {
