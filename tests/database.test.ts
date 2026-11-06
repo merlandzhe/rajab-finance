@@ -5,7 +5,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { shim, seed } from "./fixtures/seed";
 import { TEST_USERS, TENANT, OTHER_TENANT } from "./fixtures/ids";
-import { today, addMonths, calculate, TEST_PRICING } from "../src/lib/money";
+import { today, addMonths, calculate } from "../src/lib/money";
 import { TEST_PRICING } from "./fixtures/pricing";
 import type { State } from "../src/lib/types";
 let db: PGlite;
