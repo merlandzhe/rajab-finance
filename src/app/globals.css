@@ -1173,6 +1173,10 @@ tbody tr:hover {
   width: 5px;
   border-radius: 50%;
 }
+/* Owner's bell opens delivery status, not unread messages. Avoid a permanent badge. */
+.notification-dot.owner-delivery-link::after {
+  display: none;
+}
 .full {
   width: 100%;
 }
