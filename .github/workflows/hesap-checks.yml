@@ -41,3 +41,7 @@ jobs:
         run: npm run typecheck
       - name: Database authorization and contract tests (isolated PGlite)
         run: npm test
+      - name: Next.js build without production secrets
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: '1'
