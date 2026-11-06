@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { randomUUID, createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
 import { z } from "zod";
 import { requireSession } from "@/lib/auth";
 import { getState, command } from "@/lib/repository";
 import { assertOrigin, fail, throttle } from "@/lib/http";
-import { isDemo, demoDb } from "@/lib/demo-db";
 import { serviceClient } from "@/lib/supabase";
 import { validateUpload } from "@/lib/uploads";
 import sharp from "sharp";
@@ -71,22 +68,10 @@ export async function POST(req: Request) {
       ext = "jpg";
     }
     const storagePath = `${s.tenant_id}/${applicationId}/${randomUUID()}.${ext}`;
-    if (isDemo()) {
-      const filePath = path.join(process.cwd(), ".demo/files", storagePath);
-      await mkdir(path.dirname(filePath), { recursive: true });
-      await writeFile(filePath, bytes);
-      await (
-        await demoDb()
-      ).query("insert into storage.objects(bucket_id,name) values($1,$2)", [
-        "deal-documents",
-        storagePath,
-      ]);
-    } else {
-      const { error } = await serviceClient()
-        .storage.from("deal-documents")
-        .upload(storagePath, bytes, { contentType: mime, upsert: false });
-      if (error) throw error;
-    }
+    const { error } = await serviceClient()
+      .storage.from("deal-documents")
+      .upload(storagePath, bytes, { contentType: mime, upsert: false });
+    if (error) throw error;
     const result = await command(
       s,
       kind === "product_photo" ? "portal.photo" : "document.register",
