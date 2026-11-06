@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { ChevronRight, KeyRound, MessageCircle, Store } from "lucide-react";
 import { Brand } from "./brand";
 import { telegramLogin } from "@/lib/telegram-login";
 const statuses: Record<string, string> = {
@@ -17,7 +18,7 @@ export function MerchantEntry({ bot }: { bot: string }) {
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [status, setStatus] = useState("");
-  async function choose(next: "request" | "code") {
+  async function choose(next: "request" | "code" | "login") {
     setError("");
     setBusy(true);
     try {
@@ -27,13 +28,19 @@ export function MerchantEntry({ bot }: { bot: string }) {
         router.refresh();
         return;
       }
-      setMode(next);
+      if (next === "login") {
+        setError(
+          "К этому Telegram ещё не подключён магазин. Подайте заявку или введите код.",
+        );
+        return;
+      }
       if (next === "request") {
         const r = await fetch("/api/merchant-request");
         const d = await r.json();
         if (!r.ok) throw Error(d.error);
-        if (d) setStatus(statuses[d.status] ?? d.status);
+        setStatus(d ? (statuses[d.status] ?? d.status) : "");
       }
+      setMode(next);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -43,43 +50,57 @@ export function MerchantEntry({ bot }: { bot: string }) {
   return (
     <main className="mini-page">
       <Brand />
-      <section className="card mini-entry">
-        <Link className="back-link" href="/mini">
-          ← Главная
-        </Link>
+      <section className="card mini-entry merchant-access">
+        {mode === "intro" ? (
+          <Link className="back-link" href="/mini">
+            ← Выбор роли
+          </Link>
+        ) : (
+          <button
+            type="button"
+            disabled={busy}
+            className="back-link merchant-back"
+            onClick={() => {
+              setMode("intro");
+              setError("");
+            }}
+          >
+            ← Кабинет магазина
+          </button>
+        )}
         <h1>
-          {mode === "request"
-            ? "Подключить магазин"
+          {mode === "intro"
+            ? "Кабинет магазина"
             : mode === "code"
-              ? "Активация кабинета"
-              : "HESAP для бизнеса"}
+              ? "Введите код доступа"
+              : status
+                ? "Статус подключения"
+                : "Подключить магазин"}
         </h1>
-        <p className="muted">
-          Заявки клиентов, договоры, графики платежей и напоминания в Telegram.
-        </p>
         {mode === "intro" && (
-          <div className="stack mt">
+          <div className="merchant-start">
             <button
               disabled={busy}
               className="btn btn-primary full"
-              onClick={() => void choose("request")}
+              onClick={() => void choose("login")}
             >
-              Получить доступ
+              Войти в мой кабинет
             </button>
-            <button
-              disabled={busy}
-              className="btn btn-outline full"
-              onClick={() => void choose("code")}
-            >
-              У меня есть код
-            </button>
-            <button
-              disabled={busy}
-              className="btn btn-ghost full"
-              onClick={() => void choose("request")}
-            >
-              Уже подключён · Войти
-            </button>
+            <div className="merchant-options">
+              <button disabled={busy} onClick={() => void choose("request")}>
+                <Store size={20} />
+                <span>
+                  Подключить магазин<small>Заявка на доступ</small>
+                </span>
+                <ChevronRight size={16} />
+              </button>
+              <button disabled={busy} onClick={() => void choose("code")}>
+                <KeyRound size={20} />
+                <span>У меня есть код</span>
+                <ChevronRight size={16} />
+              </button>
+            </div>
+            {busy && <p role="status">Проверяем доступ…</p>}
           </div>
         )}
         {mode === "request" && !status && (
@@ -114,41 +135,47 @@ export function MerchantEntry({ bot }: { bot: string }) {
               }
             }}
           >
-            <label className="field">
-              Имя
-              <input
-                name="name"
-                autoComplete="name"
-                minLength={2}
-                maxLength={120}
-                required
-              />
-            </label>
-            <label className="field">
-              Название магазина
-              <input name="shop" minLength={2} maxLength={120} required />
-            </label>
-            <label className="field">
-              Город
-              <input
-                name="city"
-                autoComplete="address-level2"
-                minLength={2}
-                maxLength={120}
-                required
-              />
-            </label>
-            <label className="field">
-              Контактный телефон
-              <input
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                placeholder="+7 999 123-45-67"
-                maxLength={25}
-                required
-              />
-            </label>
+            <fieldset>
+              <legend>Магазин</legend>
+              <label className="field">
+                Название магазина
+                <input name="shop" minLength={2} maxLength={120} required />
+              </label>
+              <label className="field">
+                Город
+                <input
+                  name="city"
+                  autoComplete="address-level2"
+                  minLength={2}
+                  maxLength={120}
+                  required
+                />
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend>Контакт для связи</legend>
+              <label className="field">
+                Имя
+                <input
+                  name="name"
+                  autoComplete="name"
+                  minLength={2}
+                  maxLength={120}
+                  required
+                />
+              </label>
+              <label className="field">
+                Контактный телефон
+                <input
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  placeholder="+7 999 123-45-67"
+                  maxLength={25}
+                  required
+                />
+              </label>
+            </fieldset>
             <p className="muted">
               Контакт нужен владельцу HESAP для обсуждения подключения.{" "}
               <Link href="/privacy">Обработка данных</Link>
@@ -221,31 +248,19 @@ export function MerchantEntry({ bot }: { bot: string }) {
             {error}
           </p>
         )}
-        <a
-          className="mini-browser-link"
-          href="https://t.me/merlandzhe"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Написать владельцу HESAP
-        </a>
-        <a
-          className="mini-browser-link"
-          href={`https://t.me/${bot}?start=hesap`}
-        >
-          Запустить бота для уведомлений
-        </a>
-        {mode !== "intro" && (
-          <button
-            className="btn btn-ghost full"
-            onClick={() => {
-              setMode("intro");
-              setError("");
-            }}
-          >
-            Назад
-          </button>
-        )}
+        <details className="merchant-help">
+          <summary>
+            <MessageCircle size={16} /> Помощь с подключением
+          </summary>
+          <a href="https://t.me/merlandzhe" target="_blank" rel="noreferrer">
+            Написать владельцу HESAP
+          </a>
+          {bot && (
+            <a href={`https://t.me/${bot}?start=hesap`}>
+              Подключить уведомления в Telegram
+            </a>
+          )}
+        </details>
       </section>
     </main>
   );

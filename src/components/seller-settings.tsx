@@ -109,7 +109,7 @@ export function SellerSettings({
           Telegram владельца:{" "}
           {health.linked
             ? "привязан"
-            : "нужно привязать через приглашение ниже"}
+            : "подключите в разделе «Приглашения в Telegram»"}
           . Доставлено: {health.sent}; в очереди: {health.pending}; требуют
           проверки: {health.failed}.
         </p>

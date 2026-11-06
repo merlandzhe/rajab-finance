@@ -795,3 +795,31 @@ body.hesap,
 
 /* The app has no persistent read/unread flags yet. Do not show a permanent 'new' dot on every bell. */
 .hesap .notification-dot:not(.has-unread)::after { display: none; }
+
+/* Merchant entry and daily work */
+.hesap .merchant-access { text-align: left; }
+.merchant-access h1 { margin-block: 18px; }
+.merchant-back { background: transparent; border: 0; padding: 0; color: inherit; }
+.merchant-start, .merchant-options, .merchant-directory, .merchant-queue { display: grid; gap: 8px; }
+.merchant-options { gap: 0; margin-top: 8px; }
+.merchant-options button, .merchant-directory a, .merchant-queue a, .merchant-fold summary {
+  display: flex; align-items: center; gap: 12px; min-height: 48px;
+  padding: 10px 2px; color: var(--ink); border: 0; border-bottom: 1px solid var(--line);
+  background: transparent; font: inherit; text-align: start; cursor: pointer;
+}
+.merchant-options button span, .merchant-fold summary span, .merchant-queue a span { flex: 1; }
+.merchant-options small { display: block; color: var(--muted); }
+.merchant-start button:disabled { opacity: .65; }
+.merchant-directory a { justify-content: space-between; }
+.merchant-access fieldset { min-width: 0; margin: 0; border: 0; padding: 0; display: grid; gap: 10px; }
+.merchant-access legend { font-weight: 700; padding: 0 0 8px; }
+.merchant-help { margin-top: 20px; border-top: 1px solid var(--line); }
+.merchant-help summary { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; color: var(--muted); }
+.merchant-help a { display: block; padding: 10px 0; }
+.merchant-fold summary { list-style: none; font-weight: 650; }
+.merchant-fold[open] summary { margin-bottom: 12px; }
+.merchant-fold[open] summary > svg:last-child { transform: rotate(90deg); }
+.merchant-queue h2, .merchant-directory h2 { font-size: 1.05rem; margin: 0; }
+
+.merchant-settings .merchant-fold summary::after { content: "+"; margin-left: auto; }
+.merchant-settings .merchant-fold[open] summary::after { content: "−"; }

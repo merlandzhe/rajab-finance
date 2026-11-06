@@ -612,19 +612,22 @@ export function CRM({
             />
           )}
           {section === "settings" && s.role === "owner" && (
-            <>
-              <SellerSettings data={data} run={run} busy={busy} />
-              <PaymentMethods edit tenantId={s.tenant_id ?? undefined} />
-              <details className="card pad mt">
-                <summary>Условия рассрочки</summary>
+            <section className="merchant-settings">
+              <h1>Настройки магазина</h1>
+              <details name="shop-settings" className="merchant-fold"><summary>Профиль магазина</summary>
+                <SellerSettings data={data} run={run} busy={busy} />
+              </details>
+              <details name="shop-settings" className="merchant-fold"><summary>Реквизиты для покупателей</summary>
+                <PaymentMethods edit tenantId={s.tenant_id ?? undefined} />
+              </details>
+              <details name="shop-settings" className="merchant-fold"><summary>Условия рассрочки</summary>
                 <SettingsPage data={data} run={run} busy={busy} />
               </details>
-              <details className="card pad mt">
-                <summary>Счета для учёта поступлений</summary>
+              <details name="shop-settings" className="merchant-fold"><summary>Счета магазина</summary>
                 <Cash data={data} run={run} busy={busy} owner={true} />
               </details>
-              {telegram && <TelegramInvite />}
-            </>
+              {telegram && <details name="shop-settings" className="merchant-fold"><summary>Приглашения в Telegram</summary><TelegramInvite /></details>}
+            </section>
           )}
           {section === "calculator" && (
             <>
