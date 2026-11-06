@@ -18,9 +18,6 @@ export default function Page() {
           <p className="muted">
             Вход появится после подключения отдельного бота.
           </p>
-          <a className="mini-browser-link" href="/login">
-            Войти в существующий кабинет
-          </a>
         </section>
       )}
     </main>
