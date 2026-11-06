@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireSession } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
-import { isDemo, demoRpc, demoDb } from "@/lib/demo-db";
 import { assertOrigin, fail, limitedJson, throttle } from "@/lib/http";
 import { getState } from "@/lib/repository";
 import { payableContracts } from "@/lib/payment-eligibility";
@@ -30,16 +29,6 @@ export async function GET() {
       return NextResponse.json(null, {
         headers: { "Cache-Control": "no-store" },
       });
-    if (isDemo()) {
-      const db = await demoDb();
-      const r = await db.query(
-        "select * from public.seller_payment_methods where tenant_id=$1",
-        [s.tenant_id],
-      );
-      return NextResponse.json(r.rows[0] ?? null, {
-        headers: { "Cache-Control": "no-store" },
-      });
-    }
     const { data, error } = await (
       await supabase()
     )
@@ -69,18 +58,8 @@ export async function POST(req: Request) {
       p_cash: b.cash_enabled,
       p_instructions: b.cash_instructions,
     };
-    if (isDemo())
-      await demoRpc(
-        s.user_id,
-        "save_seller_payment_methods",
-        Object.values(args),
-      );
-    else {
-      const { error } = await (
-        await supabase()
-      ).rpc("save_seller_payment_methods", args);
-      if (error) throw error;
-    }
+    const { error } = await (await supabase()).rpc("save_seller_payment_methods", args);
+    if (error) throw error;
     return NextResponse.json({ ok: true });
   } catch (e) {
     return fail(e);
