@@ -1,10 +1,6 @@
 // Server configuration. Never expose the bot token in NEXT_PUBLIC variables.
 export function telegramMiniAppEnabled() {
-  return (
-    process.env.TELEGRAM_MINI_APP_ENABLED === "true" &&
-    process.env.DEMO_DEPLOYMENT !== "true" &&
-    process.env.DEMO_MODE !== "true"
-  );
+  return process.env.TELEGRAM_MINI_APP_ENABLED === "true";
 }
 export function telegramBotUsername() {
   const name = process.env.TELEGRAM_MINI_APP_BOT_USERNAME ?? "";
