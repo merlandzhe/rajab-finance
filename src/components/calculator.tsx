@@ -52,7 +52,7 @@ export function Calculator({
           <div className="row between mb">
             <h3>Ваши условия</h3>
             <span className="badge neutral">
-              Демо-тарифы · v{pricing.version}
+              Тарифы · версия {pricing.version}
             </span>
           </div>
           <label className="field">
