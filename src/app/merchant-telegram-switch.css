@@ -1,0 +1,97 @@
+/* Premium Telegram notifications switch on merchant overview */
+body.hesap .mtg-portal-slot { margin: 0 0 15px; }
+body.hesap .mtg-card {
+  background: #faf9f5;
+  color: #142f42;
+  padding: 14px 15px;
+  border-radius: 18px;
+  border: 1px solid #dce4e6;
+  box-shadow: 0 6px 21px rgba(4, 18, 29, .1);
+  display: flex;
+  align-items: center;
+  min-height: 83px;
+  gap: 12px;
+  min-width: 0;
+}
+body.hesap .mtg-telegram-icon {
+  width: 44px; height: 44px;
+  background: #238dd0;
+  border-radius: 50%;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+body.hesap .mtg-text {
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+body.hesap .mtg-text strong {
+  font-size: 15px; font-weight: 760;
+  letter-spacing: -.015em;
+  line-height: 1.25;
+  color: #173245;
+}
+body.hesap .mtg-text small {
+  font-size: 12px; color: #6b808b;
+  line-height: 1.35;
+}
+body.hesap .mtg-feedback {
+  font-size: 11px; color: #947139; line-height: 1.3;
+}
+body.hesap .mtg-open-bot {
+  color: #8b693a; display: inline-flex; align-items: center;
+  gap: 4px; width: fit-content;
+  font-size: 12px; font-weight: 720; text-decoration: underline;
+  padding: 3px 0;
+}
+body.hesap .mtg-switch {
+  width: 60px; height: 34px;
+  border: 1px solid #bfcbd2 !important;
+  border-radius: 999px;
+  flex-shrink: 0;
+  position: relative;
+  background: #c5cdd2 !important;
+  cursor: pointer;
+  padding: 3px;
+  transition: background .2s ease, border-color .2s ease;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+body.hesap .mtg-switch.is-on {
+  background: linear-gradient(105deg, #dfab50, #f2d79c) !important;
+  border-color: #dbad60 !important;
+}
+body.hesap .mtg-switch:focus-visible {
+  outline: 2px solid #d5a157 !important;
+  outline-offset: 3px;
+}
+body.hesap .mtg-switch:disabled { opacity: .58; cursor: not-allowed; }
+body.hesap .mtg-thumb {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #fff; color: #b89461;
+  box-shadow: 0 1px 5px rgba(0,0,0,.16);
+  display: grid; place-items: center;
+  position: absolute; top: 3px; left: 3px;
+  transition: transform .2s ease;
+}
+body.hesap .mtg-switch.is-on .mtg-thumb {
+  transform: translateX(26px);
+  color: #b28849;
+}
+@keyframes mtg-rotate { to { transform: rotate(360deg); } }
+body.hesap .mtg-spin { animation: mtg-rotate .75s linear infinite; }
+@media(max-width:390px) {
+  body.hesap .mtg-card { padding: 12px; gap: 10px; }
+  body.hesap .mtg-telegram-icon { width: 40px; height: 40px; }
+  body.hesap .mtg-text strong { font-size: 14px; }
+  body.hesap .mtg-switch { width: 54px; }
+  body.hesap .mtg-switch.is-on .mtg-thumb { transform: translateX(20px); }
+}
+@media(prefers-reduced-motion: reduce) {
+  body.hesap .mtg-thumb, body.hesap .mtg-switch { transition: none; }
+  body.hesap .mtg-spin { animation: none; }
+}

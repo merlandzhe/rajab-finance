@@ -1,0 +1,16 @@
+.hesap .buyer-app .pocket-header button[aria-label^="Уведомления"],
+.hesap a.notification-dot[href="/crm/platform-notifications"]{position:relative}
+.hesap .hesap-unread-badge{position:absolute;display:block;top:5px;right:5px;width:10px;height:10px;border-radius:50%;background:#e4bb78;border:2px solid #0c2233;pointer-events:none}
+.hesap .hesap-inbox-slot{width:100%;min-width:0;margin:18px 0}
+.hesap .hesap-inbox-panel{background:#faf9f6;color:#122a3a;padding:20px;border-radius:20px;border:1px solid #d7dfe3;box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.hesap .hesap-inbox-title{display:flex;gap:10px;align-items:center;justify-content:space-between}
+.hesap .hesap-inbox-title h2{margin:0 0 14px;font-size:20px;color:#132e40}
+.hesap .hesap-inbox-counter{color:#10283b;background:#e5c285;border-radius:50px;padding:5px 9px;font-size:12px;font-weight:700}
+.hesap .hesap-inbox-empty{color:#536977;font-size:14px;line-height:1.6;margin:4px 0}
+.hesap .hesap-inbox-list{display:grid;gap:10px}
+.hesap .hesap-inbox-item{display:block;padding:14px;border-radius:14px;border:1px solid #e0e5e8;background:#fff;text-decoration:none;color:#142c3d}
+.hesap .hesap-inbox-item.is-unread{border-color:#d6b171;background:#fffbf3}
+.hesap .hesap-inbox-item strong{display:block;font-size:15px;margin-bottom:5px}
+.hesap .hesap-inbox-item p{margin:0 0 8px;font-size:14px;color:#4e6472;line-height:1.5}
+.hesap .hesap-inbox-item small{font-size:12px;color:#82919b}
+@media(max-width:420px){.hesap .hesap-inbox-panel{padding:16px;border-radius:16px}}

@@ -1,0 +1,87 @@
+/*
+ * HESAP unified premium form controls.
+ * Visual-only. Keeps native checkboxes, radio, sliders, upload controls
+ * and action buttons unchanged.
+ */
+body.hesap :is(form, .field, .form-field)
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]), select, textarea),
+body.hesap :is(.ms-card,.hd-card) 
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]),select,textarea) {
+  display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 51px;
+  background: #102a3b !important;
+  color: #f7f9f8 !important;
+  -webkit-text-fill-color: #f7f9f8;
+  border: 1px solid #4b6979 !important;
+  border-radius: 14px !important;
+  outline: none;
+  box-shadow: none !important;
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.45;
+  caret-color: #f0cb8e;
+  color-scheme: dark;
+  transition: border-color 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+}
+body.hesap :is(form, .field, .form-field)
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]),select,textarea)::placeholder,
+body.hesap :is(.ms-card,.hd-card) 
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]),select,textarea)::placeholder {
+  color: #a6bac6 !important;
+  -webkit-text-fill-color: #a6bac6;
+  opacity: 1;
+}
+body.hesap :is(form, .field, .form-field)
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]),select,textarea):focus,
+body.hesap :is(.ms-card,.hd-card) 
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="range"]):not([type="color"]),select,textarea):focus {
+  border-color: #e4c188 !important;
+  outline: 2px solid #e4c188 !important;
+  outline-offset: 1px;
+  box-shadow: 0 0 0 4px rgba(226,188,124,.15) !important;
+}
+body.hesap :is(form,.field,.form-field)
+  :is(input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="hidden"]),select,textarea):disabled {
+  opacity: .56;
+  cursor: not-allowed;
+}
+body.hesap :is(form,.field,.form-field) select option,
+body.hesap :is(.ms-card,.hd-card) select option {
+  color: #f7f9f8;
+  background: #102a3b;
+}
+body.hesap :is(form,.field,.form-field) textarea,
+body.hesap :is(.ms-card,.hd-card) textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+body.hesap :is(form,.field,.form-field)
+  input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #102a3b inset !important;
+  -webkit-text-fill-color: #f7f9f8 !important;
+  caret-color: #f0cb8e;
+}
+body.hesap :is(form,.field,.form-field)
+  label:has(> input:not([type="checkbox"]):not([type="radio"]),> select,> textarea),
+body.hesap .ms-card label:not(.ms-checkbox) {
+  font-weight: 650;
+  line-height: 1.4;
+}
+body.hesap .ms-card :is(input,select):not([type="checkbox"]),
+body.hesap .ms-card textarea {
+  width: 100%;
+}
+@media (max-width: 600px) {
+  body.hesap .ms-content,
+  body.hesap .hd-main { overflow-wrap: anywhere; }
+  body.hesap :is(.ms-fields,.hd-fields)>* { min-width: 0; }
+}
+/* Telegram top actions occupy the device safe-area; leave room on initial render. */
+html[data-telegram="true"] body.hesap.mini-app-theme .ms-root {
+  padding-top: max(0px, calc(154px - var(--telegram-top, 0px)));
+  scroll-padding-top: 154px;
+}

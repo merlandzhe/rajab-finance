@@ -1,0 +1,17 @@
+/* True unread signal: rendered only when the authenticated API reports new events. */
+.hesap .merchant-app a.notification-dot {
+  position: relative;
+}
+.hesap .merchant-app .hesap-live-unread-dot {
+  position: absolute;
+  top: 0px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  display: block;
+  background: #e7bf7b;
+  border: 1.5px solid #102639;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(231, 191, 123, 0.15);
+  pointer-events: none;
+}

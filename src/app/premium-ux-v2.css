@@ -1,0 +1,179 @@
+/* HESAP Premium UX v2: compact, readable, touch-friendly.
+   Presentation only: no change to prices, permissions or business rules. */
+body.hesap {
+  --hesap-navy:#102637;
+  --hesap-panel:#fbfaf7;
+  --hesap-panel-line:#dce3e5;
+  --hesap-gold:#e3c084;
+  --hesap-gold-dark:#94713e;
+  --hesap-copy:#173245;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.hesap :is(.ms-content,.hd-main,.hesap-contracts-content) {
+  overflow-wrap:anywhere;
+}
+body.hesap :is(.ms-content,.hd-main,.hesap-contracts-content) h1 {
+  font-size:clamp(28px,7.4vw,38px);
+  font-weight:760;
+  line-height:1.16;
+  letter-spacing:-.035em;
+  text-wrap:balance;
+}
+body.hesap :is(.ms-subtitle,.hd-muted,.hesap-contracts-intro){
+  line-height:1.65;
+}
+body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card,.merchant-kpi) {
+  background:var(--hesap-panel);
+  border:1px solid var(--hesap-panel-line);
+  border-radius:22px;
+  box-shadow:0 4px 8px rgba(7,22,32,.035),0 14px 30px rgba(7,22,32,.09);
+}
+body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card) {
+  scroll-margin-top:125px;
+}
+body.hesap .merchant-kpi-grid {
+  gap:12px;
+}
+body.hesap .merchant-kpi {
+  min-height:118px;
+  position:relative;
+  overflow:hidden;
+}
+body.hesap .merchant-kpi:focus-visible,
+body.hesap .merchant-actions a:focus-visible,
+body.hesap :is(.pocket-nav,.ms-nav,.hd-nav) a:focus-visible,
+body.hesap :is(.pocket-nav,.ms-nav,.hd-nav) button:focus-visible {
+  outline:2px solid var(--hesap-gold);
+  outline-offset:3px;
+}
+body.hesap .merchant-kpi-bottom strong {
+  font-variant-numeric:tabular-nums;
+}
+body.hesap :is(.ms-section-heading,.hd-row,.hesap-contracts-section-title) {
+  min-width:0;
+}
+body.hesap .ms-section-heading {
+  margin-bottom:2px;
+}
+body.hesap .ms-section-heading h2,
+body.hesap .hd-card h2 {
+  font-weight:740;
+  letter-spacing:-.025em;
+}
+body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card) label {
+  line-height:1.45;
+}
+body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card) :is(input,select,textarea):not([type=checkbox]):not([type=radio]):not([type=hidden]):not([type=file]) {
+  -webkit-tap-highlight-color:transparent;
+}
+body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card) :is(input[type=checkbox], input[type=radio]) {
+  accent-color:#ba9153;
+}
+body.hesap :is(.ms-summary-row,.hd-quote>div,.hesap-contracts-pair,.cv-pair) strong {
+  font-variant-numeric:tabular-nums;
+}
+body.hesap :is(.ms-monthly,.hd-quote .hd-highlight,.hesap-contracts-pair.featured,.cv-emphasis) {
+  border:1px solid #d7e2e5;
+  border-radius:15px;
+}
+body.hesap :is(.ms-monthly,.hd-quote .hd-highlight) strong {
+  letter-spacing:-.03em;
+}
+body.hesap :is(.ms-submit,.hd-primary,.hesap-contracts-primary,.cv-pdf-button) {
+  border-radius:15px;
+  min-height:52px;
+  font-weight:750;
+  letter-spacing:-.01em;
+  box-shadow:0 6px 14px rgba(155,111,53,.14);
+  -webkit-tap-highlight-color:transparent;
+}
+body.hesap :is(.ms-submit,.hd-primary,.hesap-contracts-primary,.cv-pdf-button):focus-visible {
+  outline:2px solid var(--hesap-gold);
+  outline-offset:3px;
+}
+body.hesap :is(.ms-submit,.hd-primary,.hesap-contracts-primary,.cv-pdf-button):active:not(:disabled) {
+  transform:translateY(1px);
+  box-shadow:0 2px 8px rgba(155,111,53,.12);
+}
+body.hesap :is(.ms-submit,.hd-primary,.hesap-contracts-primary,.cv-pdf-button):disabled {
+  box-shadow:none;
+}
+body.hesap :is(.ms-history-row,.hesap-contracts-outline,.ms-history-actions button) {
+  -webkit-tap-highlight-color:transparent;
+}
+body.hesap .ms-history-row {
+  min-height:60px;
+  border-radius:14px;
+}
+body.hesap .ms-history-row.paid {
+  border-color:#80c5a1;
+  background:#e7f6ec;
+}
+body.hesap :is(.ms-history-result,.ms-monthly) {
+  border-radius:16px;
+}
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.hd-nav,nav.hesap-contracts-bottom) {
+  background:rgba(23,47,65,.97);
+  border:1px solid rgba(140,174,194,.34);
+  box-shadow:0 -10px 30px rgba(4,17,28,.23);
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+}
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.hd-nav,nav.hesap-contracts-bottom) :is(a,button) {
+  -webkit-tap-highlight-color:transparent;
+}
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.hd-nav,nav.hesap-contracts-bottom) :is(a,button)[aria-current="page"],
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.hd-nav,nav.hesap-contracts-bottom) :is(a,button).current,
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.hd-nav,nav.hesap-contracts-bottom) :is(a,button).active {
+  color:#e9c68a;
+}
+body.hesap .ms-root {
+  padding-bottom:calc(154px + env(safe-area-inset-bottom,0px));
+}
+body.hesap .hd-page,
+body.hesap .hesap-contracts-page {
+  padding-bottom:calc(135px + env(safe-area-inset-bottom,0px));
+}
+body.hesap .ms-history-scroll {
+  scrollbar-width:thin;
+  scrollbar-color:#9eafb8 #eef2f3;
+}
+@media(max-width:420px) {
+  body.hesap :is(.ms-content,.hd-main,.hesap-contracts-content) {
+    padding-left:16px;
+    padding-right:16px;
+  }
+  body.hesap :is(.ms-card,.hd-card,.hesap-contracts-card) {
+    padding:18px;
+  }
+  body.hesap .merchant-kpi-grid {
+    gap:10px;
+  }
+  body.hesap .merchant-kpi {
+    padding:14px;
+  }
+  body.hesap .ms-fields,
+  body.hesap .hd-fields {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  body.hesap .ms-fields > *,
+  body.hesap .hd-fields > * {
+    min-width:0;
+  }
+  body.hesap :is(.ms-monthly,.ms-history-result) strong {
+    font-size:clamp(18px,5.2vw,23px);
+  }
+}
+@media(max-width:355px) {
+  body.hesap .ms-fields,
+  body.hesap .hd-fields {
+    grid-template-columns:minmax(0,1fr);
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.hesap :is(.ms-submit,.hd-primary,.hesap-contracts-primary,.cv-pdf-button) {
+    transition:none;
+  }
+}

@@ -1,0 +1,27 @@
+/* HESAP notification bell — fix misleading, permanent unread dot. */
+/* The application has no read/unread state for merchant delivery history.
+   Don't display a badge until there is genuine unread tracking. */
+.hesap a.notification-dot::after {
+  content: none !important;
+  display: none !important;
+}
+/* The notification history can legitimately be empty. Make that state
+   understandable instead of rendering an empty bordered box. */
+.hesap .merchant-app .hint.mb + .card:empty {
+  border: 1px solid rgba(225, 190, 126, 0.22);
+  background: rgba(30, 57, 74, 0.64);
+  border-radius: 18px;
+  min-height: 84px;
+  display: grid;
+  place-items: center;
+  box-shadow: none;
+}
+.hesap .merchant-app .hint.mb + .card:empty::before {
+  content: "Новых уведомлений нет";
+  display: block;
+  padding: 18px 22px;
+  color: #c8d3da;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
