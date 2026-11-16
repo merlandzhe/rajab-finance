@@ -1,0 +1,414 @@
+/*
+ HESAP signature redesign: visual-only presentation with Caucasus peak backdrop.
+ Inherited routes, data, contract states, notifications and actions remain untouched.
+ Palette: midnight navy, warm brushed gold, warm-white financial cards.
+*/
+body.hesap {
+ --hesap-night: #0b2232;
+ --hesap-midnight: #071b29;
+ --hesap-gold-strong: #e7be79;
+ --hesap-gold-soft: #f2d8a5;
+ --hesap-surface-premium: #faf8f3;
+ --hesap-border-premium: #e8dbc5;
+ background: #0b2232;
+}
+body.hesap,
+body.hesap .buyer-app {
+ background-image:
+   radial-gradient(ellipse 83% 34% at 75% 6%,rgba(216,162,92,.12),transparent 75%),
+   linear-gradient(165deg,#0b2333 0%,#0a1e2d 65%,#091c2b 100%);
+ color: #f8f5ee;
+}
+body.hesap a,body.hesap button{ -webkit-tap-highlight-color:transparent; }
+body.hesap :is(.buyer-app,.merchant-upgrade,.merchant-overview,.pocket-content) {
+ isolation: isolate;
+}
+body.hesap .buyer-app,
+body.hesap .merchant-upgrade {
+ font-feature-settings: "tnum" 1;
+}
+body.hesap :is(.pocket-heading,.screen-heading,.merchant-welcome) h1 {
+ font-size:clamp(28px,7.7vw,38px);
+ font-weight:750;
+ letter-spacing:-.038em;
+ line-height:1.13;
+ text-wrap:balance;
+}
+body.hesap :is(.pocket-heading,.screen-heading,.merchant-welcome) p {
+ color:#b9c9d3;
+ line-height:1.55;
+}
+body.hesap :is(.pocket-heading,.screen-heading,.merchant-welcome) .eyebrow {
+ color:#e9c082;
+ font-size:11px;
+ text-transform:uppercase;
+ font-weight:750;
+ letter-spacing:.17em;
+}
+/* Branded nightscape belongs in headings — forms and operational tables stay clean. */
+body.hesap .merchant-welcome {
+ position:relative;
+ min-height:172px;
+ padding:20px 17px 28px;
+ border-radius:20px;
+ margin-bottom:18px;
+ overflow:hidden;
+ background:
+   linear-gradient(90deg,#0b2335 0%,rgba(11,35,53,.97) 34%,rgba(11,35,53,.49) 86%),
+   url("/hesap-peaks.svg") no-repeat right center / auto 115%;
+ border:1px solid rgba(211,163,100,.27);
+ box-shadow:inset 0 0 30px rgba(214,153,76,.035),0 12px 26px rgba(0,0,0,.12);
+}
+body.hesap .merchant-welcome::after {
+ content:"";
+ position:absolute;
+ bottom:0;
+ left:16px;
+ right:16px;
+ height:1px;
+ background:linear-gradient(90deg,transparent,#dab779 43%,transparent);
+ opacity:.65;
+ pointer-events:none;
+}
+body.hesap .merchant-welcome>* { position:relative;z-index:1; }
+body.hesap .merchant-welcome .eyebrow {color:#ebc387;}
+body.hesap .merchant-welcome h1 {max-width:330px;text-shadow:0 1px 18px #061620;}
+body.hesap .merchant-welcome p {max-width:235px;color:#d2d9d7;}
+body.hesap .buyer-app:has(.portfolio-card) .pocket-heading,
+body.hesap .buyer-app:has(.portfolio-card) .screen-heading {
+ position:relative;
+ min-height:173px;
+ border-radius:20px;
+ padding:22px 18px 20px;
+ margin-bottom:15px;
+ overflow:hidden;
+ background:
+  linear-gradient(90deg,#0b2436 0%,rgba(11,36,54,.9) 43%,rgba(11,36,54,.30) 100%),
+  url("/hesap-peaks.svg") no-repeat right center / auto 120%;
+ border:1px solid rgba(212,171,101,.25);
+ box-shadow:0 13px 30px #04131f30;
+}
+body.hesap .buyer-app:has(.portfolio-card) :is(.pocket-heading,.screen-heading) :is(h1,p,small) {
+ position:relative;
+ z-index:1;
+ max-width:80%;
+}
+body.hesap .buyer-app:has(.portfolio-card) :is(.pocket-heading,.screen-heading) h1 {
+ color:#fff8eb;
+ text-shadow:0 3px 14px #081e2e;
+}
+body.hesap :is(.buyer-app,.merchant-upgrade) :is(.eyebrow,.pocket-kicker) {
+ color:#e9c282;
+}
+/* The beautiful dark balance card from the reference. */
+body.hesap .buyer-app .portfolio-card,
+body.hesap .buyer-app .balance-card {
+ background:
+   radial-gradient(circle at 86% 6%,rgba(227,184,118,.18),transparent 33%),
+   linear-gradient(145deg,#294b60 0%,#193649 45%,#0d283a 100%) !important;
+ border:1px solid #b48d54 !important;
+ color:#fff6e8 !important;
+ border-radius:22px !important;
+ box-shadow:0 10px 26px #0004, inset 0 1px 0 rgba(255,236,195,.20),0 0 20px rgba(214,171,103,.10) !important;
+ overflow:hidden;
+ position:relative;
+}
+body.hesap .buyer-app .portfolio-card::after {
+ content:"✧";
+ pointer-events:none;
+ position:absolute;
+ right:14px;
+ top:5px;
+ color:#e7bd74;
+ opacity:.23;
+ font-size:57px;
+ line-height:1;
+}
+body.hesap .buyer-app .portfolio-card :is(p,span,small,h2,h3,label),
+body.hesap .buyer-app .balance-card :is(p,span,small,h2,h3,label) {
+ color:#d5e0e3 !important;
+ -webkit-text-fill-color:#d5e0e3;
+}
+body.hesap .buyer-app .portfolio-card :is(strong,.amount,.balance,.stat-value),
+body.hesap .buyer-app .balance-card :is(strong,.amount,.balance,.stat-value) {
+ color:#f4cd89 !important;
+ -webkit-text-fill-color:#f4cd89;
+ font-variant-numeric:tabular-nums;
+}
+body.hesap .buyer-app .portfolio-card :is(progress, .progress, .progress-bar),
+body.hesap .buyer-app .balance-card :is(progress, .progress, .progress-bar) {
+ accent-color:#e5b568;
+ border-radius:20px;
+}
+body.hesap .buyer-app .portfolio-card :is(.progress-bar,.progress-fill),
+body.hesap .buyer-app .balance-card :is(.progress-bar,.progress-fill) {
+ background:linear-gradient(90deg,#e2af63,#f0d392);
+}
+body.hesap :is(.buyer-app,.merchant-upgrade)
+  :is(.purchase-card,.overview-tile,.merchant-row,.schedule-list,.card:not(.mini-entry)) {
+ border-radius:20px;
+ border:1px solid #e4dfd4;
+ background:linear-gradient(145deg,#fffefd 0%,#f8f5ed 100%);
+ box-shadow:0 5px 8px #0315220a,0 15px 30px #03152225;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) {
+ padding:16px;
+ position:relative;
+ overflow:hidden;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card)::before {
+ content:"";
+ position:absolute;
+ top:16px;
+ bottom:16px;
+ left:0;
+ width:3px;
+ border-radius:3px;
+ background:linear-gradient(#eac482,#af854e);
+ opacity:.65;
+ pointer-events:none;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) img {
+ object-fit:cover;
+ border-radius:12px;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) strong,
+body.hesap .buyer-app :is(.purchase-card,.application-card) h3 {
+ color:#182e40;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) :is(small,.muted) {
+ color:#627b8b;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) :is(progress,.progress) {
+ accent-color:#d4a462;
+}
+body.hesap .buyer-app :is(.purchase-card,.application-card) :is(button,a):focus-visible {
+ outline:2px solid #d6a869;
+ outline-offset:2px;
+}
+body.hesap .buyer-app .pocket-content .application-compose {
+ background:#faf8f4;
+ color:#163245;
+ border-radius:20px;
+}
+body.hesap .buyer-app .pocket-content .application-compose :is(h2,h3,label) {
+ color:#183448;
+}
+body.hesap :is(.buyer-app,.merchant-upgrade,.merchant-overview)
+ :is(.btn-primary,.button-primary,.primary-action,.gold-button) {
+ background:linear-gradient(115deg,#f2d6a0,#dfb571) !important;
+ color:#142c3c !important;
+ border:1px solid #d3a56b !important;
+ box-shadow:0 4px 12px rgba(152,104,40,.15);
+ border-radius:14px !important;
+ font-weight:750;
+}
+body.hesap :is(.buyer-app,.merchant-upgrade)
+ :is(.btn-primary,.button-primary,.primary-action,.gold-button):active {
+ transform:translateY(1px);
+}
+body.hesap .buyer-app .pocket-nav,
+body.hesap nav.pocket-nav,
+body.hesap .ms-nav,
+body.hesap .pc-nav {
+ border:1px solid rgba(213,178,115,.35) !important;
+ background:linear-gradient(180deg,rgba(24,48,65,.98),rgba(12,35,52,.99)) !important;
+ box-shadow:0 -6px 22px rgba(0,0,0,.2), inset 0 1px rgba(248,219,165,.12) !important;
+ backdrop-filter:blur(16px);
+ -webkit-backdrop-filter:blur(16px);
+}
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.pc-nav) a:is(.active,.current,[aria-current="page"]),
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.pc-nav) button:is(.active,.current,[aria-current="page"]) {
+ color:#f1ce8e !important;
+ background:rgba(238,195,121,.09);
+ border-radius:13px;
+}
+body.hesap :is(nav.pocket-nav,nav.ms-nav,nav.pc-nav) a:is(.active,.current,[aria-current="page"]) svg {
+ color:#f1ce8e;
+}
+body.hesap .merchant-upgrade .merchant-kpi-grid {
+ gap:11px;
+ margin:0 0 18px;
+}
+body.hesap .merchant-upgrade .merchant-kpi {
+ background:linear-gradient(150deg,#fffefd,#f5f1e9);
+ border:1px solid #e4dac9;
+ border-radius:19px;
+ min-height:121px;
+ padding:15px 14px;
+ box-shadow:0 8px 19px #0002, inset 0 1px #fff;
+ overflow:hidden;
+ position:relative;
+}
+body.hesap .merchant-upgrade .merchant-kpi::before {
+ content:"";
+ position:absolute;
+ top:0;
+ left:20%;
+ right:20%;
+ height:2px;
+ background:linear-gradient(90deg,transparent,#d6b074,transparent);
+ opacity:.35;
+}
+body.hesap .merchant-upgrade .merchant-kpi:focus-visible {
+ outline:2px solid #e3b46e;
+ outline-offset:3px;
+}
+body.hesap .merchant-upgrade .merchant-kpi-top {
+ color:#556f7e;
+ font-size:12px;
+ line-height:1.3;
+}
+body.hesap .merchant-upgrade .merchant-kpi-top svg {
+ color:#a8864e;
+}
+body.hesap .merchant-upgrade .merchant-kpi-bottom strong {
+ font-size:clamp(27px,7vw,37px);
+ color:#102e41;
+ font-weight:770;
+ letter-spacing:-.04em;
+ font-variant-numeric:tabular-nums;
+}
+body.hesap .merchant-upgrade .merchant-kpi.critical {
+ background:linear-gradient(150deg,#fff7f4,#fcece7);
+ border-color:#efd4cd;
+}
+body.hesap .merchant-upgrade .merchant-kpi.critical .merchant-kpi-bottom strong {
+ color:#9f4233;
+}
+body.hesap .merchant-upgrade .merchant-actions {
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:9px;
+ margin-bottom:18px;
+}
+body.hesap .merchant-upgrade .merchant-actions > :is(a,button) {
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ gap:8px;
+ min-width:0;
+ min-height:91px;
+ text-align:center;
+ padding:12px 7px;
+ border-radius:17px;
+ background:linear-gradient(145deg,#fffefa,#f3ecde);
+ border:1px solid #e5d9c3;
+ color:#1c3b4e !important;
+ font-weight:710;
+ font-size:12px;
+ line-height:1.25;
+ box-shadow:0 4px 11px rgba(0,0,0,.10);
+ white-space:normal;
+}
+body.hesap .merchant-upgrade .merchant-actions > :is(a,button) svg {
+ color:#a37b3f;
+ width:22px;
+ height:22px;
+ flex-shrink:0;
+}
+body.hesap .merchant-upgrade .merchant-actions > :is(a,button):focus-visible {
+ outline:2px solid #e8bd78;
+ outline-offset:2px;
+}
+/* Modern, genuinely readable customer cards on phones. */
+body.hesap.hesap-customers-view .hesap-customer-table tbody tr {
+ border:1px solid #e2dacf!important;
+ background:#fffdfa!important;
+ color:#153043!important;
+ box-shadow:0 7px 18px #0012201a!important;
+ border-radius:18px!important;
+}
+body.hesap.hesap-customers-view .hesap-customer-table tbody tr:nth-child(even) {
+ background:#f9f7f1!important;
+}
+body.hesap.hesap-customers-view .hesap-customer-table tbody tr:is(
+ :hover,:focus-within,:active,.active,.selected,[aria-selected="true"],[data-selected="true"],[data-state="selected"]) {
+ background:linear-gradient(125deg,#24465c,#122c3e)!important;
+ border-color:#d6b173!important;
+ color:#fff9eb!important;
+ box-shadow:inset 0 0 0 1px #bd985d,0 6px 20px #010f1f4d!important;
+}
+body.hesap.hesap-customers-view .hesap-customer-table tbody tr:is(
+ :hover,:focus-within,:active,.active,.selected,[aria-selected="true"],[data-selected="true"],[data-state="selected"]) :is(td,th,span,p,strong,b,small,a,div,button) {
+ color:#fff9ed!important;
+ -webkit-text-fill-color:#fff9ed!important;
+}
+body.hesap.hesap-customers-view .hesap-customer-table tbody tr:is(
+ :hover,:focus-within,:active,.active,.selected,[aria-selected="true"],[data-selected="true"],[data-state="selected"]) td small {
+ color:#d9c49d!important;
+ -webkit-text-fill-color:#d9c49d!important;
+}
+/* Search and sorting should feel like premium controls, not a desktop spreadsheet. */
+body.hesap.hesap-customers-view :is(input[type="search"],input[placeholder*="Имя"],input[placeholder*="имени"]) {
+ border:1px solid #5c7a8b!important;
+ border-radius:14px!important;
+ background:#142e40!important;
+ color:#fff8ec!important;
+ -webkit-text-fill-color:#fff8ec!important;
+ min-height:48px;
+}
+body.hesap.hesap-customers-view :is(select,button):focus-visible {
+ outline:2px solid #dbb575;
+ outline-offset:2px;
+}
+body.hesap.hesap-customers-view :is(.btn-primary,.new-customer,.gold-button) {
+ background:linear-gradient(115deg,#f1d6a0,#dfb777)!important;
+ border:1px solid #d6ad6d!important;
+ color:#152f41!important;
+ border-radius:14px!important;
+}
+body.hesap :is(.hesap-contracts-card,.ms-card,.mns-card,.pc-entry) {
+ border:1px solid #e1d9cb;
+ box-shadow:0 7px 20px #0015251a;
+}
+body.hesap :is(.ms-monthly,.ms-history-result,.hesap-contracts-pair.featured) {
+ background:#f0eadf;
+ border-color:#e2d5bd;
+}
+body.hesap :is(.ms-monthly,.ms-history-result,.hesap-contracts-pair.featured) strong {
+ color:#9b713e;
+}
+/* A gentle geometric gold corner motif; avoids busy textures across forms. */
+body.hesap .merchant-welcome::before,
+body.hesap .buyer-app:has(.portfolio-card) .pocket-heading::before {
+ content:"";
+ position:absolute;
+ top:-29px;right:-28px;
+ width:115px;height:115px;
+ border:1px solid rgba(238,194,115,.28);
+ border-radius:23px;
+ transform:rotate(45deg);
+ box-shadow:0 0 0 21px rgba(13,39,57,.1),0 0 0 22px rgba(223,175,98,.13);
+ pointer-events:none;
+ z-index:0;
+}
+@media(max-width:640px) {
+ body.hesap .merchant-welcome {
+   min-height:165px;
+   padding:17px 17px 25px;
+   background-size:auto 115%;
+ }
+ body.hesap .buyer-app:has(.portfolio-card) .pocket-heading,
+ body.hesap .buyer-app:has(.portfolio-card) .screen-heading {
+   min-height:160px;
+   padding:18px 16px;
+   background-size:auto 110%;
+ }
+ body.hesap .merchant-upgrade .merchant-kpi {min-height:113px;}
+ body.hesap .merchant-upgrade .merchant-actions > :is(a,button) {min-height:85px;}
+}
+@media(max-width:380px) {
+ body.hesap .merchant-upgrade .merchant-actions {gap:6px;}
+ body.hesap .merchant-upgrade .merchant-actions > :is(a,button) {
+   padding:8px 5px;
+   font-size:11px;
+ }
+ body.hesap .merchant-welcome h1 {font-size:29px;}
+ body.hesap .merchant-upgrade .merchant-kpi {padding:12px 10px;}
+ body.hesap .merchant-upgrade .merchant-kpi-top {font-size:11px;}
+ body.hesap .merchant-upgrade .merchant-kpi-bottom strong {font-size:29px;}
+}
+@media(prefers-reduced-motion:reduce) {
+ body.hesap :is(.merchant-kpi,.purchase-card,.merchant-actions a) {transition:none;}
+}

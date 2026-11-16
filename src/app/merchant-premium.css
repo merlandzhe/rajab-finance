@@ -1,0 +1,76 @@
+.hesap .merchant-upgrade{max-width:740px;margin:0 auto;padding-bottom:10px}
+.hesap .merchant-welcome{margin-bottom:20px}
+.hesap .merchant-welcome .eyebrow{color:#e1bd7a;font-size:10px;letter-spacing:.19em;font-weight:700}
+.hesap .merchant-welcome h1{color:#f6f6f2;font-size:clamp(27px,7.5vw,35px);font-weight:680;line-height:1.2;letter-spacing:-.035em;margin:8px 0 6px}
+.hesap .merchant-welcome p{color:#b0c0cc;margin:0;font-size:13px}
+.hesap .merchant-kpi-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.hesap .merchant-kpi{color:#173044;min-height:112px;background:#fbfaf6;border:1px solid #dce2e5;border-radius:16px;padding:15px;text-decoration:none;box-shadow:0 7px 15px #040e1611}
+.hesap .merchant-kpi-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;color:#526776;font-size:12px;font-weight:600}
+.hesap .merchant-kpi-top svg{color:#ad8a50;flex-shrink:0}
+.hesap .merchant-kpi-bottom{display:flex;justify-content:space-between;align-items:end;margin-top:11px}
+.hesap .merchant-kpi-bottom strong{font-size:30px;line-height:1.1;font-weight:690;color:#102b3c}
+.hesap .merchant-kpi-bottom svg{color:#bd995e}
+.hesap .merchant-kpi.critical .merchant-kpi-bottom strong{color:#ae573d}
+.hesap .merchant-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 18px}
+.hesap .merchant-actions a{display:flex;align-items:center;justify-content:center;gap:7px;min-height:49px;padding:9px 12px;border-radius:13px;text-decoration:none;font-size:13px;font-weight:680;text-align:center}
+.hesap .merchant-action-primary{grid-column:1/-1;color:#102c3e;background:linear-gradient(105deg,#f0d49e,#d8b36e);border:1px solid #e2ba77}
+.hesap .merchant-action-primary svg:last-child{margin-left:auto}
+.hesap .merchant-action-secondary{background:#203c4e;border:1px solid #4b6170;color:#f5f1e7}
+.hesap .merchant-attention{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:14px 16px;color:#fbe5ad;text-decoration:none;background:#343525;border:1px solid #776943;border-radius:15px}
+.hesap .merchant-attention span{flex:1}.hesap .merchant-attention strong,.hesap .merchant-attention small{display:block}.hesap .merchant-attention small{color:#ddd0b2;font-size:11px;margin-top:4px}
+.hesap .merchant-telegram-card{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;padding:17px;color:#f7f4ed;border-radius:17px;background:#1c3a4d;border:1px solid #425c6a}
+.hesap .merchant-telegram-icon{display:grid;place-items:center;width:40px;height:40px;flex-shrink:0;border-radius:12px;background:#e3c18418;color:#e8c78d}
+.hesap .merchant-telegram-info{min-width:0;flex:1}
+.hesap .merchant-telegram-title{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.hesap .merchant-telegram-title strong{font-size:15px}
+.hesap .merchant-telegram-connected{display:flex;align-items:center;gap:4px;color:#a2d9bd;font-size:11px}
+.hesap .merchant-telegram-card p{margin:6px 0 9px;color:#bdcad4;font-size:12px;line-height:1.55}
+.hesap .merchant-telegram-action{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:39px;padding:8px 13px;border-radius:10px;border:1px solid #d7b576;background:#e7c482;color:#132b3c;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer}
+.hesap .merchant-telegram-action:disabled{opacity:.55;cursor:wait}
+.hesap .merchant-telegram-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.hesap .merchant-telegram-textlink{display:inline-flex;align-items:center;gap:5px;color:#efd19b;text-decoration:none;font-size:12px}
+.hesap .merchant-telegram-invite small{display:block;margin-top:9px;line-height:1.5;color:#bccdd7}
+.hesap .merchant-telegram-note{font-size:11px;color:#f3dcb0!important}
+.hesap .merchant-panel{padding:4px 0 6px;margin-bottom:17px}
+.hesap .merchant-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.hesap .merchant-panel-head h2{margin:0;color:#f6f2ea;font-size:19px;font-weight:670}
+.hesap .merchant-panel-head p{margin:3px 0 0;color:#a7bbca;font-size:11px}
+.hesap .merchant-panel-head a{display:inline-flex;align-items:center;gap:3px;color:#e7c080;text-decoration:none;font-size:12px;white-space:nowrap}
+.hesap .merchant-upgrade-row{display:flex;align-items:center;gap:11px;min-height:75px;margin:8px 0;padding:13px;border:1px solid #dbe3e5;border-radius:14px;background:#faf9f5;text-decoration:none;color:#142e40}
+.hesap .merchant-client-letter{display:grid;place-items:center;flex-shrink:0;width:38px;height:38px;border-radius:12px;color:#b18c56;background:#e9e0cf;font-weight:700}
+.hesap .merchant-upgrade-row>span{flex:1;min-width:0}
+.hesap .merchant-upgrade-row strong,.hesap .merchant-upgrade-row small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hesap .merchant-upgrade-row strong{font-size:13px}
+.hesap .merchant-upgrade-row small{font-size:11px;color:#6b7e89;margin-top:5px}
+.hesap .merchant-upgrade-row b{font-size:12px;flex-shrink:0;white-space:nowrap}
+.hesap .merchant-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:95px;padding:16px;color:#a8bdcc;border:1px dashed #536977;border-radius:15px;text-align:center}
+.hesap .merchant-empty p{margin:0;font-size:12px;line-height:1.5}
+.hesap .merchant-empty strong{color:#dbe6ec;font-size:13px}
+.hesap .merchant-empty.small{min-height:75px}
+.hesap .merchant-extended{margin:0 0 15px;border:1px solid #506575;background:#1c3647;border-radius:14px;overflow:hidden}
+.hesap .merchant-extended>summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;color:#f1d39a;list-style:none;cursor:pointer;font-size:13px;font-weight:650}
+.hesap .merchant-extended>summary::-webkit-details-marker{display:none}
+.hesap .merchant-extended[open]>summary svg{transform:rotate(180deg)}
+.hesap .merchant-extended-body{padding:0 14px 16px}
+.hesap .merchant-extended .filter-chips{margin:10px 0}
+.hesap .merchant-extended .search-field{margin:13px 0}
+.hesap .merchant-extended .merchant-upgrade-row{min-height:60px}
+.hesap .merchant-more{width:100%;min-height:43px;border:1px solid #59788b;background:#223d50;border-radius:11px;color:#fff;cursor:pointer}
+.hesap .merchant-secondary-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:16px 0}
+.hesap .merchant-secondary-nav>a{display:flex;align-items:center;gap:8px;min-height:45px;padding:10px 11px;color:#c8d8df;text-decoration:none;font-size:12px;background:#1d3849;border-radius:11px;border:1px solid #355466}
+.hesap .merchant-secondary-nav svg{flex-shrink:0;color:#e0bf85}
+.hesap .merchant-app .app-body>details.card.pad.mt:has(.detail-grid){display:none}
+@media(max-width:760px){
+.hesap .merchant-app .side-nav:has(a[href="/crm/customers"])>a[href="/crm/contracts"]{display:none!important}
+.hesap .merchant-app .side-nav:has(a[href="/crm/customers"])>a[href="/crm/customers"]{display:flex!important;order:3}
+.hesap .merchant-app .side-nav>a[href="/crm"]{order:1}
+.hesap .merchant-app .side-nav>a[href="/crm/applications"]{order:2}
+.hesap .merchant-app .side-nav>a[href="/crm/payments"]{order:4}
+.hesap .merchant-app .side-nav>.more-link{order:5}
+.hesap .more-menu-link[href="/crm/customers"]{display:none}
+.hesap .merchant-app .sidebar{padding:7px}
+.hesap .merchant-app .side-nav{gap:2px}
+.hesap .merchant-app .side-link{min-height:56px;font-size:10px;padding:8px 2px}
+.hesap .merchant-upgrade{padding:0 0 14px}
+.hesap .merchant-welcome{margin-bottom:17px}}
+@media(max-width:375px){.hesap .merchant-kpi{min-height:104px;padding:12px}.hesap .merchant-actions a{font-size:12px;padding:9px 8px}.hesap .merchant-telegram-card{padding:13px;gap:9px}.hesap .merchant-upgrade-row{gap:7px;padding:10px}.hesap .merchant-upgrade-row b{font-size:11px}}

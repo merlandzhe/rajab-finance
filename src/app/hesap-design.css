@@ -1,0 +1,794 @@
+/* HESAP: shared, compact presentation. Business rules remain in components. */
+body.hesap,
+.hesap .buyer-app {
+  --bg: #0d202e;
+  --ink: #f6f4ee;
+  --muted: #a9bac6;
+  --gold: #dfbd7f;
+  --line: #304451;
+  font-size: 14px;
+  line-height: 1.55;
+}
+.hesap h1 {
+  font-size: clamp(27px, 7vw, 34px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+}
+.hesap h2 {
+  font-size: 21px;
+}
+.hesap h3 {
+  font-size: 17px;
+}
+.hesap h1,
+.hesap h2,
+.hesap h3,
+.hesap p {
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+.hesap .screen-heading {
+  margin: 4px 0 24px;
+}
+.hesap .screen-heading h1 {
+  margin: 8px 0;
+}
+.hesap .screen-heading > p {
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+.hesap .clean-section,
+.hesap .merchant-overview {
+  max-width: 960px;
+}
+.hesap .stack {
+  gap: 14px;
+}
+.hesap .card:not(.mini-entry),
+.hesap .purchase-card,
+.hesap .overview-tile,
+.hesap .merchant-row,
+.hesap .schedule-list {
+  --ink: #172d3c;
+  --muted: #607380;
+  --line: #e0e6e8;
+  --surface: #fcfbf8;
+  --gold: #936f35;
+  color: var(--ink);
+  color-scheme: light;
+  background: var(--surface);
+  border: 1px solid #e2e6e6;
+  border-radius: 18px;
+  box-shadow:
+    0 3px 4px #020b1304,
+    0 14px 32px #020b1310;
+}
+.hesap .pad,
+.hesap .directory-card,
+.hesap .portfolio-card {
+  padding: 20px;
+}
+.hesap .entity-heading {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.hesap .entity-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  background: #f0eadf;
+  border: 1px solid #e8dfce;
+  border-radius: 13px;
+  color: #957139;
+}
+.hesap .entity-title {
+  flex: 1;
+  min-width: 0;
+}
+.hesap .entity-title h2,
+.hesap .entity-title h3 {
+  font-size: 19px;
+  line-height: 1.3;
+  margin: 0;
+}
+.hesap .entity-title p {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #607380;
+  margin: 4px 0 0;
+}
+.hesap .record-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.hesap .access-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  border-radius: 7px;
+  padding: 6px 9px;
+}
+.hesap .access-state:before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: currentColor;
+}
+.hesap .access-state.active,
+.hesap .request-activated {
+  color: #316247;
+  background: #e7efe8;
+}
+.hesap .access-state.ending,
+.hesap .request-new,
+.hesap .request-review,
+.hesap .request-approved {
+  color: #795a24;
+  background: #f4ead5;
+}
+.hesap .access-state.blocked,
+.hesap .access-state.expired,
+.hesap .request-rejected {
+  color: #954839;
+  background: #f6e8e3;
+}
+.hesap .record-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #607380;
+  margin: 8px 0;
+}
+.hesap .record-detail svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.hesap .record-detail span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.hesap .record-contacts {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  font-size: 13px;
+  margin: 4px 0 8px;
+}
+.hesap .record-contacts a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  color: #294858;
+}
+.hesap .record-contacts svg {
+  color: #8c713f;
+}
+.hesap .record-reference {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 11px;
+  color: #607380;
+}
+.hesap .record-reference b {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.hesap .directory-empty {
+  text-align: center;
+  padding: 32px 22px;
+}
+.hesap .directory-empty > svg {
+  margin-bottom: 14px;
+  color: #957139;
+}
+.hesap .directory-empty h2 {
+  font-size: 18px;
+}
+.hesap .directory-empty p {
+  font-size: 13px;
+  color: #607380;
+  max-width: 370px;
+  margin: 10px auto;
+}
+.hesap .directory-loading {
+  display: grid;
+  gap: 12px;
+  color: #a9bac6;
+  font-size: 13px;
+}
+.hesap .directory-loading > div {
+  height: 130px;
+  border: 1px solid #304451;
+  border-radius: 18px;
+  background: linear-gradient(100deg, #142b3a, #1d3646, #142b3a);
+}
+.hesap .filter-chips,
+.hesap .platform-access > .filter-chips {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.hesap .filter-chips button,
+.hesap .platform-access > .filter-chips button {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 12px;
+  border-radius: 11px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: left;
+  justify-content: space-between;
+  border: 1px solid #344956;
+  background: #172e3e;
+  color: #c6d2da;
+}
+.hesap .filter-chips button.active {
+  background: #dfc38e;
+  border-color: #dfc38e;
+  color: #172b39;
+  font-weight: 600;
+}
+.hesap .filter-chips button span {
+  min-width: 22px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  font-size: 11px;
+  flex-shrink: 0;
+  text-align: center;
+}
+.hesap .filter-chips button:last-child:nth-child(odd) {
+  grid-column: 1/-1;
+}
+.hesap .directory-toolbar.directory-search,
+.hesap .platform-access .directory-toolbar.directory-search {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  margin-bottom: 18px;
+  align-items: stretch;
+}
+.hesap .search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 13px;
+  margin: 0;
+  background: #142a39;
+  border: 1px solid #344956;
+  border-radius: 12px;
+  color: #9bafbd;
+}
+.hesap .search-field svg {
+  flex-shrink: 0;
+}
+.hesap .directory-toolbar .search-field input,
+.hesap .platform-access .directory-toolbar .search-field input {
+  min-width: 0;
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  color: #f6f4ee;
+  -webkit-text-fill-color: #f6f4ee;
+  padding: 10px 0;
+  border-radius: 0;
+  font-size: 16px;
+}
+.hesap .search-field:focus-within {
+  outline: 2px solid #dfbd7f;
+  outline-offset: 2px;
+}
+.hesap .search-field input::placeholder {
+  color: #9bafbd;
+  -webkit-text-fill-color: #9bafbd;
+  opacity: 1;
+}
+.hesap .directory-toolbar .refresh-button {
+  width: 48px;
+  padding: 0;
+}
+.hesap .refresh-button span {
+  display: none;
+}
+.hesap .segmented {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: #142a39;
+  border: 1px solid #344956;
+}
+.hesap .segmented button {
+  min-height: 42px;
+  font-size: 12px;
+}
+.hesap .segmented button.active {
+  background: #dfc38e;
+  color: #172b39;
+}
+.hesap .btn {
+  min-height: 46px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: normal;
+}
+.hesap .btn-primary,
+.hesap .merchant-app .btn-primary,
+.hesap .buyer-app .btn-primary,
+.hesap .mini-entry .btn-primary {
+  color: #172b39;
+  background: linear-gradient(110deg, #ead09c, #d9b572);
+  border: 1px solid #ddbd80;
+  box-shadow: 0 4px 12px #b08c4512;
+}
+.hesap .btn-outline {
+  border-color: #435b6b;
+  background: #ffffff02;
+}
+.hesap .card .btn-outline {
+  color: #233e4e;
+  border-color: #cbd5d9;
+}
+.hesap .company-primary-action {
+  min-height: 48px;
+  padding: 12px 16px;
+}
+.hesap .card-details {
+  border-top: 1px solid #e0e6e8;
+  margin-top: 16px;
+  padding-top: 12px;
+}
+.hesap .card-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+  min-height: 46px;
+  padding: 11px 13px;
+  border-radius: 11px;
+  background: #eef1f1;
+  color: #294454;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.hesap .card-details > summary::-webkit-details-marker {
+  display: none;
+}
+.hesap .card-details > summary:after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+.hesap .card-details[open] > summary {
+  margin-bottom: 16px;
+}
+.hesap .card-details[open] > summary:after {
+  transform: rotate(225deg);
+}
+.hesap .field {
+  gap: 7px;
+  font-size: 13px;
+  min-width: 0;
+}
+.hesap input:not([type="checkbox"]):not([type="radio"]),
+.hesap select,
+.hesap textarea {
+  box-sizing: border-box;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+  border-radius: 11px;
+}
+.hesap .card input:not([type="checkbox"]):not([type="radio"]),
+.hesap .card select,
+.hesap .card textarea {
+  background: #f0f3f3;
+  border-color: #dce3e6;
+  color: #172d3c;
+  -webkit-text-fill-color: #172d3c;
+  caret-color: #172d3c;
+}
+.hesap .card input::placeholder,
+.hesap .card textarea::placeholder {
+  color: #687b87;
+  -webkit-text-fill-color: #687b87;
+  opacity: 1;
+}
+.hesap input[type="date"],
+.hesap input[type="datetime-local"] {
+  appearance: none;
+  width: 100%;
+  overflow: hidden;
+}
+.hesap input::-webkit-date-and-time-value {
+  text-align: left;
+  min-width: 0;
+}
+.hesap .renewal-presets {
+  gap: 7px;
+  font-size: 12px;
+}
+.hesap .activation-receipt {
+  border-color: #c6a46a !important;
+}
+.hesap .brand {
+  font-size: 21px;
+  letter-spacing: 0.1em;
+  gap: 9px;
+}
+.hesap .brand-mark {
+  width: 35px;
+  height: 35px;
+  border: 0;
+  background: none;
+  border-radius: 0;
+}
+.hesap .brand-mark svg {
+  width: 29px;
+  height: 29px;
+}
+.hesap .topbar {
+  min-height: 70px;
+  background: #0d202e;
+  border-color: #2b414f;
+}
+.hesap .topbar-avatar {
+  background: #263e4e;
+  color: #dfbd7f;
+}
+.hesap .sidebar {
+  background: #0a1b27;
+  border-color: #263c4a;
+}
+.hesap .side-link {
+  min-height: 46px;
+  border-radius: 11px;
+}
+.hesap .side-link.active {
+  color: #dfbd7f;
+  background: #dfbd7f12;
+  box-shadow: none;
+}
+.hesap .pocket-header {
+  display: flex;
+  gap: 6px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #2b414f;
+}
+.hesap .pocket-header .brand {
+  margin-right: auto;
+}
+.hesap .pocket-content {
+  max-width: 620px;
+  padding: 22px 20px
+    calc(
+      130px + env(safe-area-inset-bottom) +
+        var(--telegram-bottom, 0px)
+    );
+}
+.hesap .pocket-nav {
+  background: #182f3f;
+  border: 1px solid #354d5c;
+  border-radius: 20px;
+  width: calc(100% - 24px);
+  max-width: 576px;
+  bottom: calc(
+    10px + env(safe-area-inset-bottom) +
+      var(--telegram-bottom, 0px)
+  );
+  padding: 7px;
+  box-shadow: 0 8px 30px #020d1b55;
+  backdrop-filter: none;
+}
+.hesap .pocket-nav a,
+.hesap .pocket-nav button {
+  min-height: 58px;
+  gap: 5px;
+  font-size: 10px;
+  border-radius: 13px;
+  padding: 8px 3px;
+  color: #aebfc9;
+}
+.hesap .pocket-nav .active {
+  color: #dfbd7f;
+  background: #dfbd7f12;
+}
+.hesap .pocket-nav svg {
+  width: 21px;
+  height: 21px;
+  stroke-width: 1.7;
+}
+.hesap .balance-card {
+  padding: 24px;
+  margin-bottom: 18px;
+  border: 1px solid #9e855c66;
+  border-radius: 20px;
+  background: linear-gradient(125deg, #1e3a4b, #142c3d);
+}
+.hesap .balance-card > strong {
+  font-size: clamp(30px, 8vw, 42px);
+  color: #efd39e;
+  font-weight: 550;
+  margin: 12px 0 22px;
+}
+.hesap .overview-tiles {
+  gap: 10px;
+}
+.hesap .overview-tile {
+  min-height: 104px;
+  padding: 16px;
+}
+.hesap .overview-tile strong {
+  font-size: 29px;
+}
+.hesap .merchant-row {
+  padding: 16px;
+  border-radius: 15px;
+}
+.hesap .section-title {
+  margin: 24px 0 14px;
+}
+.hesap .section-title h2 {
+  font-size: 19px;
+}
+.hesap .purchase-card {
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.hesap .purchase-card h3 {
+  font-size: 19px;
+}
+.hesap .progress-track {
+  background: #e6ebe8;
+  height: 5px;
+}
+.hesap .progress-fill {
+  background: #b8975b;
+}
+.hesap .schedule-item {
+  padding: 17px 14px;
+}
+.hesap .schedule-item.overdue {
+  background: #faf0ec;
+}
+.hesap .badge {
+  border-radius: 7px;
+  padding: 5px 8px;
+  line-height: 1.4;
+}
+.hesap .card th {
+  background: #eef1f1;
+}
+.hesap .card tr:hover {
+  background: #f0f3f3;
+}
+.hesap .mini-page,
+.hesap.mini-app-theme .mini-page {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at top, #19394b, #0d202e 65%);
+  padding: 30px 22px;
+}
+.hesap .mini-page > .brand {
+  max-width: 440px;
+  margin: 0 auto 44px;
+  font-size: 23px;
+}
+.hesap .mini-entry {
+  max-width: 440px;
+  margin: 0 auto;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  box-shadow: none;
+}
+.hesap .entry-eyebrow {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.hesap .mini-entry h1 {
+  font-size: clamp(30px, 7vw, 38px);
+  font-weight: 600;
+  line-height: 1.12;
+  max-width: 370px;
+}
+.hesap .mini-entry > .muted {
+  font-size: 14px;
+  max-width: 320px;
+  line-height: 1.65;
+}
+.hesap .role-options {
+  gap: 12px;
+  margin: 30px 0 20px;
+}
+.hesap .role-card {
+  min-height: 96px;
+  padding: 18px 16px;
+  border-radius: 17px;
+  background: #fcfbf8;
+  gap: 12px;
+}
+.hesap .role-card .role-icon {
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 48px;
+  border-radius: 13px;
+  background: #f0eadf;
+  color: #957139;
+}
+.hesap .role-card strong {
+  font-size: 15px;
+  font-weight: 650;
+}
+.hesap .role-card small {
+  font-size: 11px;
+}
+.hesap .entry-caption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 11px;
+  margin-top: 22px;
+}
+.hesap .buyer-setup {
+  max-width: 510px;
+  padding: 22px 18px;
+}
+.hesap .buyer-setup h1 {
+  font-size: 27px;
+}
+.hesap .buyer-setup h2 {
+  font-size: 18px;
+}
+.hesap .buyer-setup .card {
+  padding: 20px;
+  border-radius: 17px;
+}
+@keyframes hesap-refresh {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hesap .is-refreshing {
+  animation: hesap-refresh 1s linear infinite;
+}
+@media (min-width: 761px) {
+  .hesap .app-body {
+    padding: 32px 36px 60px;
+  }
+  .hesap .directory-card {
+    padding: 24px;
+  }
+  .hesap .filter-chips,
+  .hesap .platform-access > .filter-chips {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  .hesap .filter-chips button:last-child:nth-child(odd),
+  .hesap .platform-access > .filter-chips button:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+  .hesap .refresh-button span {
+    display: inline;
+  }
+  .hesap .directory-toolbar .refresh-button {
+    width: auto;
+    padding: 11px 16px;
+  }
+}
+@media (max-width: 760px) {
+  .hesap .merchant-app .sidebar,
+  html[data-telegram="true"] .hesap .merchant-app .sidebar {
+    top: auto;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    bottom: calc(
+      10px + env(safe-area-inset-bottom) +
+        var(--telegram-bottom, 0px)
+    );
+    padding: 7px;
+    border: 1px solid #354d5c;
+    border-radius: 20px;
+    background: #182f3f;
+    box-shadow: 0 8px 30px #020d1b55;
+  }
+  .hesap .merchant-app .side-nav {
+    gap: 3px;
+    overflow: visible;
+  }
+  .hesap .merchant-app .side-link {
+    min-height: 58px;
+    font-size: 10px;
+    gap: 5px;
+    padding: 8px 2px;
+  }
+  .hesap .merchant-app .side-link svg {
+    width: 21px;
+    height: 21px;
+  }
+  .hesap .topbar {
+    min-height: 62px;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .hesap .topbar .brand {
+    font-size: 18px;
+    gap: 7px;
+  }
+  .hesap .topbar .brand-mark {
+    width: 29px;
+    height: 32px;
+  }
+  .hesap .topbar .brand-mark svg {
+    width: 27px;
+    height: 27px;
+  }
+  .hesap .app-body {
+    padding: 22px 16px
+      calc(
+        135px + env(safe-area-inset-bottom) +
+          var(--telegram-bottom, 0px)
+      );
+  }
+  .hesap .finance-workspace > .filter-chips {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .hesap .finance-workspace > .filter-chips button:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+  .hesap .btn:hover {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hesap * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Owner delivery status is not an unread inbox. */
+.hesap .owner-delivery-link::after { content: none; }

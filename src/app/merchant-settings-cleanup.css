@@ -1,0 +1,9 @@
+/* Keep the whole calendar shortcut on one full-width row, even inside a grid. */
+body.hesap .merchant-upgrade > .pc-shortcut-mount {
+  grid-column: 1 / -1 !important;
+  width: 100%;
+  max-width: 100%;
+}
+body.hesap .mns-legacy-hidden {
+  display: none !important;
+}
