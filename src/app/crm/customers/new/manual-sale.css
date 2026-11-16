@@ -1,0 +1,44 @@
+
+.ms-root{min-height:100dvh;background:#0e2332;color:#faf9f6;padding-bottom:140px}
+.ms-header{height:82px;max-width:760px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 23px;border-bottom:1px solid rgba(238,243,247,.14)}
+.ms-logo{font-size:23px;letter-spacing:.13em;color:#e7c183;text-decoration:none;display:flex;gap:12px;align-items:center;font-weight:780}
+.ms-header-back{display:flex;gap:7px;align-items:center;color:#dfc28c;font-size:14px;text-decoration:none}
+.ms-content{padding:26px 23px;max-width:760px;margin:auto}
+.ms-kicker{letter-spacing:.15em;text-transform:uppercase;font-size:12px;color:#e5bc7a;font-weight:750}
+.ms-content h1{font-size:clamp(28px,7.5vw,39px);margin:12px 0 9px;letter-spacing:-.035em;line-height:1.13}
+.ms-subtitle{color:#b4c5cf;font-size:14px;line-height:1.6;max-width:560px;margin:0 0 21px}
+.ms-segment{display:grid;grid-template-columns:1fr 1fr;padding:5px;border-radius:15px;background:#1d3a4c;border:1px solid #3d5b6d;gap:5px;margin-bottom:19px}
+.ms-segment button{background:transparent;border:0;border-radius:11px;color:#c3d0d8;min-height:45px;font-size:14px;font-weight:650;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.ms-segment button.chosen{background:#e8c58c;color:#122c3d}
+.ms-form{display:grid;gap:17px}
+.ms-card{background:#faf9f6;color:#132f41;border:1px solid #dae1e4;border-radius:20px;padding:21px;display:grid;gap:17px}
+.ms-section-heading{display:flex;align-items:center;gap:10px;color:#a47d42}
+.ms-section-heading h2{color:#182f40;font-size:19px;margin:0;letter-spacing:-.01em}
+.ms-card label:not(.ms-checkbox){display:grid;gap:9px;color:#233f50;font-size:14px;font-weight:620}
+.ms-card input:not([type=checkbox]),.ms-card select{width:100%;min-width:0;min-height:49px;border:1px solid #cedbe1;border-radius:12px;background:#f0f4f5;color:#122c3d;font-size:16px;padding:11px 12px}
+.ms-card input:focus,.ms-card select:focus{outline:2px solid #e3c28c}
+.ms-required{color:#ac6539}.ms-optional{font-size:12px;color:#7a8a92;font-weight:normal}
+.ms-fields{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.ms-summary-row,.ms-schedule-row{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:14px;border-bottom:1px solid #e1e8e9;padding:10px 0}
+.ms-summary-row span,.ms-schedule-row span{color:#607684}
+.ms-summary-row strong,.ms-schedule-row strong{color:#173346;text-align:right;font-variant-numeric:tabular-nums}
+.ms-total strong{font-size:18px}
+.ms-monthly{display:flex;justify-content:space-between;align-items:center;background:#e9eff1;border-radius:13px;padding:16px;gap:8px}
+.ms-monthly span{font-size:14px;color:#506b7b}
+.ms-monthly strong{font-size:23px;color:#a67d3f;text-align:right}
+.ms-schedule-title{font-size:15px;font-weight:750;display:flex;gap:8px;align-items:center;color:#1c3d52}
+.ms-schedule-scroll{max-height:310px;overflow-y:auto;overscroll-behavior:contain}
+.ms-prompt{color:#617c8e;font-size:14px;line-height:1.6}
+.ms-checkbox{display:flex;align-items:flex-start;gap:12px;color:#213e50;font-size:14px;line-height:1.5;font-weight:600}
+.ms-checkbox input{width:22px;height:22px;flex-shrink:0;margin:1px 0}
+.ms-confirm p{color:#647b88;font-size:12px;line-height:1.55;margin:0}
+.ms-error{color:#973f33;background:#fff0eb;border-radius:12px;padding:12px 16px;margin:0}
+.ms-submit{background:linear-gradient(110deg,#f0d49e,#dfb779);color:#153246;border:0;min-height:58px;border-radius:14px;font-weight:760;font-size:16px;display:flex;justify-content:center;align-items:center;gap:10px;cursor:pointer}
+.ms-submit:disabled{opacity:.5;cursor:default}
+.ms-more{display:inline-flex;margin:20px 0;color:#dfbd80;font-size:14px;text-decoration:none}
+.ms-nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#193142;border:1px solid #3f5d71;border-radius:24px 24px 0 0;display:flex;padding:12px 5px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px rgba(0,0,0,.12)}
+.ms-nav a{color:#b5c5d0;text-decoration:none;display:grid;justify-items:center;gap:6px;flex:1;min-width:0;font-size:12px;padding:8px 1px}
+.ms-nav a.current{color:#e5be80;font-weight:720}
+.ms-locked{padding:45px 22px;max-width:560px;margin:auto;background:#0f2739;color:white;min-height:100dvh}
+.ms-locked a{color:#e5c18b}
+@media(max-width:400px){.ms-content{padding:22px 15px}.ms-card{padding:17px}.ms-fields{gap:9px}.ms-monthly strong{font-size:20px}.ms-nav a{font-size:11px}}
