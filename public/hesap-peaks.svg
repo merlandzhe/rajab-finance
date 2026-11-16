@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="540" viewBox="0 0 1400 540" fill="none">
+<defs>
+  <linearGradient id="sky" x1="800" y1="0" x2="900" y2="490" gradientUnits="userSpaceOnUse"><stop stop-color="#10283C" stop-opacity="0"/><stop offset=".68" stop-color="#183A50" stop-opacity=".55"/><stop offset="1" stop-color="#0B2130" stop-opacity=".95"/></linearGradient>
+  <linearGradient id="gold" x1="900" y1="110" x2="1150" y2="400" gradientUnits="userSpaceOnUse"><stop stop-color="#F5D5A1"/><stop offset=".65" stop-color="#C69659"/><stop offset="1" stop-color="#72553C"/></linearGradient>
+  <linearGradient id="snow" x1="600" y1="145" x2="900" y2="340" gradientUnits="userSpaceOnUse"><stop stop-color="#F9E5BD"/><stop offset=".6" stop-color="#D4A56D"/><stop offset="1" stop-color="#4C6376"/></linearGradient>
+  <linearGradient id="rear" x1="880" y1="205" x2="900" y2="510" gradientUnits="userSpaceOnUse"><stop stop-color="#53687A"/><stop offset="1" stop-color="#152F41"/></linearGradient>
+  <linearGradient id="front" x1="700" y1="265" x2="820" y2="540" gradientUnits="userSpaceOnUse"><stop stop-color="#27465B"/><stop offset="1" stop-color="#0B2131"/></linearGradient>
+  <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(1050 235) rotate(90) scale(220 450)"><stop stop-color="#DCAA66" stop-opacity=".25"/><stop offset="1" stop-color="#DCAA66" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1400" height="540" fill="url(#sky)"/>
+<rect width="1400" height="540" fill="url(#glow)"/>
+<path d="M250 455 510 310 600 366 770 139 890 300 1030 95 1205 300 1325 213 1400 270 1400 540 250 540Z" fill="url(#rear)"/>
+<path d="M650 300 770 139 850 245 812 227 780 175 748 227 723 218Z" fill="url(#snow)"/>
+<path d="M913 239 1030 95 1162 251 1096 227 1053 144 1013 196 980 185Z" fill="url(#snow)"/>
+<path d="M1198 300 1325 213 1400 270 1400 330 1345 267 1318 248 1288 265Z" fill="url(#gold)" opacity=".75"/>
+<path d="M0 499 260 360 413 435 597 312 765 405 910 294 1055 407 1188 330 1400 422 1400 540 0 540Z" fill="url(#front)"/>
+<path d="M580 397 691 340 757 405 703 373 659 369Z" fill="#E0B77E" opacity=".45"/>
+<path d="M900 352 966 319 1049 386 995 353 969 345Z" fill="#D9AC75" opacity=".45"/>
+<path d="M0 506 Q340 449 530 485 T1010 482 T1400 470V540H0Z" fill="#091D2C" opacity=".76"/>
+<!-- restrained tower-inspired architectural motif on a ridge -->
+<g transform="translate(1174 274)" opacity=".82">
+<path d="M0 101 7 20 24 4 43 20 50 101Z" fill="#0D2332" stroke="#C49A60" stroke-width="1.9"/>
+<path d="M7 20 24 4 43 20" stroke="#F0CA94" stroke-width="2"/>
+<path d="M15 42H22V55H15ZM29 42H36V55H29ZM22 77H30V100H22Z" fill="#E8C28A" opacity=".65"/>
+<path d="M-16 101H66" stroke="#B18B59" stroke-width="2"/>
+</g>
+<path d="M0 453 C380 420 750 460 1400 420" stroke="#D4AA72" stroke-opacity=".12" stroke-width="2"/>
+</svg>
