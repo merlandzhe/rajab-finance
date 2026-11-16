@@ -1,7 +1,7 @@
 name: HESAP checks
 on:
   push:
-    branches: [main, sync-production-2026-11-16]
+    branches: [main]
   pull_request:
 permissions:
   contents: read
