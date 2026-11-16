@@ -12,7 +12,8 @@
     "check:db": "node --import tsx scripts/check-db.ts",
     "check:http": "node --import tsx scripts/http-check.ts",
     "check:telegram-http": "node --import tsx scripts/telegram-http-check.ts",
-    "export:demo": "node --import tsx scripts/export-demo.ts"
+    "export:demo": "node --import tsx scripts/export-demo.ts",
+    "prebuild": "tar -xzf rajab-source.tar.gz public/fonts/DejaVuSans.ttf public/fonts/DejaVuSans-Bold.ttf"
   },
   "keywords": [],
   "author": "",
