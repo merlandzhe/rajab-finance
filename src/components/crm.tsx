@@ -2690,143 +2690,65 @@ function SettingsPage({
   busy: boolean;
 }) {
   const current = data.settings[0];
-  const [mode, setMode] = useState(current.mode),
-    [error, setError] = useState("");
+  const [error, setError] = useState("");
   return (
     <>
       <Heading
         title="Наценки и тарифы"
         sub="Установите условия для новых заявок вашего магазина"
       />
-      <div className="section-tabs">
-        <a className="active" href="/crm/pricing">
-          Наценки и тарифы
-        </a>
-        <a href="#history">История изменений</a>
-      </div>
-      <div className="detail-grid">
-        <form
-          className="card pad"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            setError("");
-            const f = new FormData(e.currentTarget);
-            try {
-              const rows = String(f.get("grid"))
-                .split("\n")
-                .filter((x) => x.trim());
-              const grid: Record<string, number> = {};
-              for (const line of rows) {
-                const parts = line.split(":").map((x) => x.trim());
-                if (parts.length !== 2 || grid[parts[0]] !== undefined)
-                  throw new Error(
-                    "Формат сетки: срок: наценка, без повторений",
-                  );
-                grid[parts[0]] = Number(cents(parts[1]));
-              }
-              await run(
-                "settings.update",
-                {
-                  mode,
-                  fixed_bps: Number(cents(String(f.get("fixed")))),
-                  term_rates: grid,
-                  prevent_negative_cash:
-                    f.get("prevent_negative_cash") === "on",
-                },
-                "Сохранена новая версия тарифов",
-              );
-            } catch (e) {
-              setError((e as Error).message);
-            }
-          }}
+      <form
+        className="card pad"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setError("");
+          const f = new FormData(e.currentTarget);
+          try {
+            const fixed = Number(cents(String(f.get("fixed"))));
+            if (!Number.isFinite(fixed) || fixed < 0 || fixed > 9500)
+              throw new Error("Укажите наценку от 0 до 95%.");
+            await run(
+              "settings.update",
+              {
+                mode: "fixed",
+                fixed_bps: fixed,
+                term_rates: current.term_rates,
+                prevent_negative_cash: current.prevent_negative_cash,
+              },
+              "Наценка магазина сохранена",
+            );
+          } catch (e) {
+            setError((e as Error).message);
+          }
+        }}
+      >
+        <h3 className="mb">Наценка магазина</h3>
+        <Field
+          label="Фиксированная наценка, %"
+          hint="Разовая наценка на стоимость товара. Индивидуальную наценку можно указать при рассмотрении заявки."
         >
-          <div className="row between mb">
-            <h3>Правило ценообразования</h3>
-            <span className="badge neutral">Версия {current.version}</span>
-          </div>
-          <Field label="Режим расчёта">
-            <select
-              value={mode}
-              onChange={(e) => setMode(e.target.value as typeof mode)}
-            >
-              <option value="fixed">
-                Фиксированная наценка от себестоимости
-              </option>
-              <option value="term">Таблица по сроку рассрочки</option>
-              <option value="individual">
-                Индивидуальная прибыль продавца
-              </option>
-            </select>
-          </Field>
-          <Field
-            label="Фиксированная наценка, %"
-            hint="Разовая прибыль от себестоимости. Не ставка по кредиту."
-          >
-            <input
-              name="fixed"
-              defaultValue={rubles(current.fixed_bps)}
-              required
-            />
-          </Field>
-          <Field
-            label="Тарифная сетка"
-            hint="Одна строка: количество месяцев : разовая наценка в %. Например, 6: 12"
-          >
-            <textarea
-              name="grid"
-              style={{ minHeight: 130 }}
-              defaultValue={Object.entries(current.term_rates)
-                .map(([n, bps]) => `${n}: ${rubles(bps)}`)
-                .join("\n")}
-            />
-          </Field>
-          <label className="check">
-            <input
-              name="prevent_negative_cash"
-              type="checkbox"
-              defaultChecked={current.prevent_negative_cash}
-            />
-            <span>Запрещать отрицательный остаток кассы</span>
-          </label>
-          {error && (
-            <p className="error mb" role="alert">
-              {error}
-            </p>
-          )}
-          <Button disabled={busy}>Сохранить новую версию</Button>
-        </form>
-        <div className="stack">
-          <div className="card pad">
-            <ShieldCheck className="gold" size={25} />
-            <h3 className="mt mb">
-              Условия уже заключённых
-              <br />
-              договоров сохраняются
-            </h3>
-            <p className="prose-note">
-              Новый тариф применяется к следующим расчётам. Он не меняет цену,
-              прибыль или график ранее оформленного договора. Индивидуальная
-              корректировка доступна только владельцу.
-            </p>
-          </div>
-          <div className="card pad" id="history">
-            <h3 className="mb">История тарифов</h3>
-            <ul className="timeline">
-              {data.settings.map((st) => (
-                <li key={st.id}>
-                  Версия {st.version} ·{" "}
-                  {st.mode === "fixed"
-                    ? "Фиксированная наценка"
-                    : st.mode === "term"
-                      ? "Сетка по срокам"
-                      : "Индивидуально"}
-                  <small>{dt(st.created_at)}</small>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+          <input
+            name="fixed"
+            inputMode="decimal"
+            type="number"
+            min="0"
+            max="95"
+            step="0.01"
+            defaultValue={rubles(current.fixed_bps)}
+            required
+          />
+        </Field>
+        {error && (
+          <p className="error mb" role="alert">
+            {error}
+          </p>
+        )}
+        <Button disabled={busy}>Сохранить наценку</Button>
+        <p className="prose-note mt">
+          Изменения применяются к новым расчётам. Условия заключённых
+          договоров остаются прежними.
+        </p>
+      </form>
     </>
   );
 }
