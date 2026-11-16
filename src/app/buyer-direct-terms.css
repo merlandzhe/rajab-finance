@@ -1,0 +1,22 @@
+
+.hesap-buyer-quote-slot{margin:10px 0}
+.hesap-buyer-quote{padding:17px;background:#f1f4f5;border-radius:15px;border:1px solid #d9e0e4;color:#183448}
+.hesap-buyer-quote>div{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:7px 0}
+.hesap-buyer-quote span{font-size:13px;color:#5a7080}
+.hesap-buyer-quote strong{font-size:18px;color:#112a3c}
+.hesap-buyer-quote .hesap-buyer-quote-primary{padding:12px 0 4px;border-top:1px solid #ced8df;margin-top:12px}
+.hesap-buyer-quote-primary strong{font-size:23px;color:#a17b47}
+.hesap-buyer-quote small,.hesap-buyer-contract-card small{display:block;color:#6c7d87;font-size:12px;line-height:1.6;margin-top:10px}
+.hesap-buyer-app-monthly{font-size:14px;color:#9f7841!important;font-weight:700;margin:12px 0 2px}
+.hesap-buyer-contracts{display:grid;gap:11px;margin:20px 0}
+.hesap-buyer-contracts h2{color:#fffaf2;font-size:22px;margin:0}
+.hesap-buyer-contract-card{background:#f9f8f5;color:#122b3d;padding:20px;border-radius:19px;display:grid;gap:13px}
+.hesap-buyer-contract-card>strong{font-size:18px}
+.hesap-buyer-contract-row{display:flex;justify-content:space-between;gap:10px}
+.hesap-buyer-contract-row span{color:#627b8a}
+.hesap-buyer-pdf{color:#a4773c!important;text-decoration:underline;font-weight:650}
+.hesap-buyer-checkbox{display:flex;gap:12px;font-size:14px;line-height:1.5}
+.hesap-buyer-checkbox input{width:22px;height:22px;flex-shrink:0}
+.hesap-buyer-confirm{background:#e5c084;color:#112738;border:0;border-radius:13px;padding:14px;font-weight:750;min-height:52px}
+.hesap-buyer-confirm:disabled{opacity:.45}
+.hesap-buyer-note{font-size:13px;color:#985e37}

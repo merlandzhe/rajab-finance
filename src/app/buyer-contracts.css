@@ -1,0 +1,46 @@
+/* HESAP buyer contracts – dedicated page, no modal or persistent top panel */
+.hesap-contracts-page{--ink:#193346;--muted:#6b7b86;background:#0e2434;color:#f9f8f4;min-height:100dvh;padding-bottom:118px}
+.hesap-contracts-head{max-width:640px;margin:auto;display:flex;align-items:center;justify-content:space-between;padding:25px 22px 17px;border-bottom:1px solid rgba(255,255,255,.12)}
+.hesap-contracts-brand{color:#e7c282;text-decoration:none;font-size:22px;letter-spacing:.13em;font-weight:780;display:flex;align-items:center;gap:10px}
+.hesap-contracts-home{color:#e6c486;font-size:13px;display:flex;align-items:center;gap:6px;text-decoration:none}
+.hesap-contracts-content{max-width:640px;margin:auto;padding:28px 21px 26px}
+.hesap-contracts-kicker{color:#e0ba78;letter-spacing:.18em;text-transform:uppercase;font-size:11px;font-weight:760;margin-bottom:9px}
+.hesap-contracts-content h1{font-size:clamp(30px,7.8vw,40px);font-weight:750;letter-spacing:-.035em;line-height:1.1;margin:0 0 12px}
+.hesap-contracts-intro{color:#bbcbd4;font-size:14px;line-height:1.6;margin:0 0 27px}
+.hesap-contracts-section{margin-top:25px}
+.hesap-contracts-section-title{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.hesap-contracts-section-title h2{font-size:20px;color:#fff;letter-spacing:-.02em;margin:0}
+.hesap-contracts-section-title>span{background:#294559;color:#e7c285;min-width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:12px}
+.hesap-contracts-card,.hesap-contracts-empty{color:#172f40;background:#faf9f5;border:1px solid #d5dfe3;border-radius:20px;padding:20px;margin-bottom:12px;box-shadow:0 6px 22px rgba(0,0,0,.06)}
+.hesap-contracts-cardtop{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hesap-contracts-cardtop small{color:#7e909a;font-size:11px}
+.hesap-contracts-tag{display:inline-flex;align-items:center;gap:5px;border-radius:100px;padding:6px 10px;font-size:12px;font-weight:650}
+.hesap-contracts-tag.pending{background:#f8ebd5;color:#825b2b}
+.hesap-contracts-tag.complete{background:#e4f1e9;color:#286748}
+.hesap-contracts-card h3{font-size:19px;color:#142e41;margin:19px 0 14px}
+.hesap-contracts-pair{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #e4e9e9}
+.hesap-contracts-pair span{color:#667d8a;font-size:13px}
+.hesap-contracts-pair strong{font-size:15px;color:#183449;text-align:right}
+.hesap-contracts-pair.featured{background:#eaf0f3;padding:12px;border-radius:12px;margin-top:8px;border:0}
+.hesap-contracts-pair.featured strong{color:#a47d40;font-size:19px}
+.hesap-contracts-outline,.hesap-contracts-primary,.hesap-contracts-text-link{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;text-decoration:none;border-radius:13px;min-height:49px;font-weight:700;font-size:14px}
+.hesap-contracts-outline{border:1px solid #c8d7df;background:#f1f4f5;color:#1d4053;margin-top:14px}
+.hesap-contracts-primary{border:0;background:linear-gradient(105deg,#f0d39b,#deb677);color:#10283a;cursor:pointer}
+.hesap-contracts-primary:disabled{opacity:.48;cursor:default}
+.hesap-contracts-text-link{color:#a47a3e;min-height:39px;margin-top:5px}
+.hesap-contracts-consent{display:flex;align-items:flex-start;gap:12px;font-size:13px;line-height:1.45;margin:16px 0;color:#264b60}
+.hesap-contracts-consent input{width:20px;height:20px;flex-shrink:0;margin:0}
+.hesap-contracts-disclaimer{color:#758993;font-size:11px;line-height:1.55;margin:12px 0 0}
+.hesap-contracts-empty{display:grid;justify-items:center;text-align:center;gap:8px;color:#637787;padding:24px 16px}
+.hesap-contracts-empty strong{font-size:14px;color:#264154}
+.hesap-contracts-empty p{font-size:13px;margin:0;line-height:1.45}
+.hesap-contracts-success{display:flex;align-items:flex-start;gap:8px;color:#245c3c;background:#e4f3e9;border-radius:14px;padding:13px;font-size:13px;line-height:1.6}
+.hesap-contracts-error{color:#a74234;font-size:13px;background:#fff0ed;padding:10px;border-radius:12px}
+.hesap-contracts-bottom{max-width:640px;border:1px solid #416277;border-radius:20px 20px 0 0;background:#172f41;left:50%;transform:translateX(-50%);padding:12px 6px calc(12px + env(safe-area-inset-bottom) + var(--telegram-bottom,0px))}
+.hesap-contracts-bottom a{flex:1;color:#aebfcb;display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 1px;font-size:11px;text-decoration:none;min-width:0}
+.hesap-contracts-bottom a.active{color:#e6bd7d;font-weight:720}
+.buyer-app .pocket-nav .hesap-contracts-nav-slot{flex:1;min-width:0;display:flex;align-items:center;justify-content:center}
+.buyer-app .pocket-nav .hesap-contracts-nav-link{display:flex;flex:1;align-items:center;flex-direction:column;justify-content:center;gap:6px;padding:8px 1px;color:#b8c8d2;text-decoration:none;font-size:11px;min-width:0}
+.buyer-app .pocket-nav{gap:0}
+.buyer-app .pocket-nav > button{min-width:0}
+@media(max-width:375px){.hesap-contracts-content{padding-inline:14px}.hesap-contracts-card{padding:16px}.hesap-contracts-bottom a,.buyer-app .pocket-nav .hesap-contracts-nav-link{font-size:10px}}

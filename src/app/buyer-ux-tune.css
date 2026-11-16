@@ -1,0 +1,12 @@
+/* HESAP buyer applications UX improvements */
+.buyer-app .pocket-content > section.stack.mb > h2 {display:none}
+.buyer-app .pocket-heading {margin-bottom:18px}
+.buyer-app .pocket-heading h1 {font-size:30px;letter-spacing:-.03em;line-height:1.2}
+.buyer-app .pocket-heading .seller-switch {font-size:14px;color:#dfbc7f}
+.buyer-app .pocket-content .application-compose > summary.btn {min-height:54px;border-radius:14px;background:linear-gradient(105deg,#f0d49d,#dcb372);color:#11283b;font-weight:700}
+.buyer-app .pocket-content .application-compose > form.card.pad {background:#faf9f6;border-radius:18px;padding:20px;border:1px solid #d9dfe2}
+.buyer-app .pocket-content .application-compose .field {font-size:14px;color:#193449;gap:8px}
+.buyer-app .pocket-content .application-compose .field input,.buyer-app .pocket-content .application-compose .field textarea {background:#f2f5f6;color:#102a3b;min-height:46px;border-radius:12px;border:1px solid #cdd9df;font-size:16px}
+.buyer-app .pocket-content .application-compose .btn-primary {border-radius:12px}
+.buyer-app .pocket-content .buyer-application-item {border-radius:18px}
+@media(max-width:380px){.buyer-app .pocket-heading h1{font-size:27px}.buyer-app .pocket-content .application-compose > form.card.pad{padding:16px}}
