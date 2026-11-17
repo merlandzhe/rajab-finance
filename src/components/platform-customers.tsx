@@ -45,7 +45,7 @@ export function PlatformCustomers() {
       <div className="screen-heading">
         <span className="eyebrow">Владелец HESAP</span>
         <h1>Клиенты</h1>
-        <p className="muted">Профили покупателей и их магазины</p>
+        <p className="muted">Покупатели с подтверждённым телефоном и заполненным профилем</p>
       </div>
       <form
         className="directory-toolbar directory-search"

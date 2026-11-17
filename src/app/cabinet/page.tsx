@@ -5,6 +5,7 @@ import {CRM} from "@/components/crm";
 import {BuyerSignatureHome} from "@/components/buyer-signature-home";
 import {isDemo} from "@/lib/demo-db";
 import {supabase} from "@/lib/supabase";
+import {nextBuyerRegistrationStep} from "@/lib/buyer-registration";
 export const dynamic="force-dynamic";
 export default async function Page(){
  const s=await session();
@@ -13,7 +14,9 @@ export default async function Page(){
  if(!isDemo()){
    const {data,error}=await (await supabase()).rpc("buyer_state");
    if(error)throw error;
-   if(data?.profile&&!data.profile.phone_verified_at)redirect("/cabinet/setup");
+   const step=nextBuyerRegistrationStep(data?.profile);
+   if(step==="phone")redirect("/cabinet/setup?mode=phone");
+   if(step==="profile")redirect("/cabinet/setup?mode=profile");
  }
  const state=await getState(s);
  return <><BuyerSignatureHome data={state} session={s}/><CRM initial={state} session={s} path={["cabinet"]} demo={isDemo()}/></>;

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ShopContact } from "./shop-contact";
+import { nextBuyerRegistrationStep } from "@/lib/buyer-registration";
 type BuyerData = {
   profile: {
     name: string;
@@ -43,11 +44,11 @@ export function BuyerSetup({
     load().catch((e) => setError(e.message));
   }, []);
   useEffect(() => {
-    if (mode === "phone" && data?.profile?.phone_verified_at) {
-      router.replace("/cabinet");
-      router.refresh();
-    }
-  }, [mode, data?.profile?.phone_verified_at, router]);
+    if (mode !== "phone" || !data?.profile || !data.profile.phone_verified_at) return;
+    const next = nextBuyerRegistrationStep(data.profile);
+    router.replace(next === "profile" ? "/cabinet/setup?mode=profile" : "/cabinet");
+    router.refresh();
+  }, [mode, data?.profile, router]);
   useEffect(() => {
     if (!profileSaved) return;
     sellerStep.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -95,7 +96,7 @@ export function BuyerSetup({
       <span className="eyebrow">Кабинет покупателя</span>
       <h1>
         {mode === "phone"
-          ? "Ваш личный кабинет"
+          ? "Завершите регистрацию"
           : mode === "seller"
             ? "Выберите продавца"
             : mode === "application"
@@ -104,7 +105,7 @@ export function BuyerSetup({
       </h1>
       <p className="muted">
         {mode === "phone"
-          ? "Один шаг — подтвердите номер в Telegram."
+          ? "Чтобы завершить регистрацию, подтвердите свой номер телефона через Telegram."
           : mode === "seller"
             ? "Переключайтесь между продавцами. Договоры и платежи сохраняются у каждого из них."
             : mode === "application"
